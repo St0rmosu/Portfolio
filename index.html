@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Profile Card</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
     }
+
     :root {
       --gradient: linear-gradient(135deg, #cfcfcf 0%, #999999 50%, #5a5a5a 100%);
       --card: #2e2e2e;
@@ -16,6 +17,7 @@
       --button-gradient: linear-gradient(45deg, #dcdcdc, #f5d879);
       --transition-time: 0.5s;
     }
+
     body {
       background: var(--gradient);
       background-attachment: fixed;
@@ -29,6 +31,7 @@
       margin: 0;
       padding: 0;
     }
+
     .card {
       display: flex;
       align-items: center;
@@ -42,6 +45,7 @@
       position: relative;
       transition: all var(--transition-time) ease;
     }
+
     .card-image-container {
       position: relative;
       width: 250px;
@@ -54,6 +58,7 @@
       background: var(--gradient);
       transition: all var(--transition-time) ease;
     }
+
     .card img {
       width: 100%;
       height: 100%;
@@ -61,16 +66,19 @@
       display: block;
       transition: all var(--transition-time) ease;
     }
+
     .card-content {
       z-index: 1;
       transition: all var(--transition-time) ease;
       padding-left: 20px;
     }
+
     .socials {
       display: flex;
       gap: 10px;
       margin-top: 15px;
     }
+
     .socials a {
       background: var(--button-gradient);
       border: none;
@@ -84,18 +92,27 @@
       transition: transform 0.3s ease;
       text-decoration: none;
     }
+
     .socials a:hover {
-      transform: scale(1.1);
+      transform: scale(1.3);
     }
+
     .socials i {
       color: black;
       font-size: 18px;
+      transition: color 0.3s ease;
     }
+
+    .socials a:hover i {
+      color: black !important;
+    }
+
     h2 {
       margin-bottom: 5px;
       font-size: 32px;
       transition: all var(--transition-time) ease;
     }
+
     h3 {
       margin-top: 0;
       color: var(--gold-light);
@@ -103,6 +120,7 @@
       margin-bottom: 15px;
       transition: all var(--transition-time) ease;
     }
+
     p {
       line-height: 1.6;
       max-width: 90%;
@@ -118,6 +136,7 @@
         width: 90vw;
         padding-top: 100px;
       }
+
       .card-image-container {
         position: absolute;
         top: -80px;
@@ -129,6 +148,7 @@
         border-radius: 50%;
         border: 5px solid var(--card);
       }
+
       .card-content {
         display: flex;
         flex-direction: column;
@@ -136,10 +156,12 @@
         width: 100%;
         padding-left: 0;
       }
+
       .card h2 {
         font-size: 26px;
         margin-top: 0;
       }
+
       .card p {
         max-width: 100%;
       }
@@ -151,13 +173,16 @@
         height: 130px;
         top: -65px;
       }
+
       .card {
         padding-top: 80px;
       }
+
       .socials a {
         width: 35px;
         height: 35px;
       }
+
       .socials i {
         font-size: 16px;
       }
