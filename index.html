@@ -182,13 +182,9 @@
     </div>
     <div class="card-content">
       <h2>Lorenzo Recchia</h2>
-      <h3 id="role">Student</h3>
-      <p id="description">
-        Hi I'm Lorenzo.
-      </p>
-      <p id ="description2">
-        I am a senior high school student based in Italy, currently attending a specialized program in Information Technology.
-      </p>
+      <h3 id="role"></h3>
+      <p id="description"></p>
+      <p id="description2"></p>
       <div class="socials">
         <a href="https://linkedin.com/in/lorenzo-recchia-55241a359" target="_blank">
           <i class="fa-brands fa-linkedin"></i>
@@ -199,8 +195,8 @@
         <a href="https://instagram.com/st0rmosu" target="_blank">
           <i class="fa-brands fa-instagram"></i>
         </a>
-        <a href="tel: +393713244193" target="_blank">
-          <i class="fa-brand fa-whatsapp"></i>
+        <a href="tel:+393713244193" target="_blank">
+          <i class="fa-brands fa-whatsapp"></i>
         </a>
       </div>
     </div>
@@ -209,22 +205,22 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
   <script>
     const lang = (navigator.language || navigator.userLanguage).toLowerCase();
-
     const roleEl = document.getElementById("role");
     const descEl = document.getElementById("description");
+    const descEl2 = document.getElementById("description2");
 
     if (lang.startsWith("it")) {
       roleEl.innerText = "Studente";
       descEl.innerText = "Ciao, sono Lorenzo.";
-      descEl.innerText = "Sono uno studente dell’ultimo anno delle scuole superiori in Italia, attualmente iscritto a un indirizzo specializzato in Informatica.";
+      descEl2.innerText = "Sono uno studente dell’ultimo anno delle scuole superiori in Italia, attualmente iscritto a un indirizzo specializzato in Informatica.";
     } else if (lang.startsWith("de")) {
       roleEl.innerText = "Schüler";
       descEl.innerText = "Ich heiße Lorenzo.";
-      descel.innerText = "Ich bin ein Schüler im letzten Jahr der Oberstufe in Italien und besuche derzeit einen spezialisierten Bildungsgang im Bereich Informationstechnologie."
+      descEl2.innerText = "Ich bin ein Schüler im letzten Jahr der Oberstufe in Italien und besuche derzeit einen spezialisierten Bildungsgang im Bereich Informationstechnologie.";
     } else {
       roleEl.innerText = "Student";
-      reoleEL.innerText = "Hi, I'm Lorenzo";
-      descEl.innerText = "I am a senior high school student based in Italy, currently attending a specialized program in Information Technology.";
+      descEl.innerText = "Hi, I'm Lorenzo.";
+      descEl2.innerText = "I am a senior high school student based in Italy, currently attending a specialized program in Information Technology.";
     }
   </script>
 </body>
