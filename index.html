@@ -48,8 +48,8 @@
 
     .card-image-container {
       position: relative;
-      width: 250px;
-      height: 250px;
+      width: 300px;
+      height: 300px;
       margin-right: 30px;
       margin-left: -50px;
       flex-shrink: 0;
@@ -114,6 +114,7 @@
       color: var(--gold-light);
       font-weight: 400;
       margin-bottom: 15px;
+      font-size: 18px;
       transition: all var(--transition-time) ease;
     }
 
@@ -139,8 +140,8 @@
         left: 50%;
         transform: translateX(-50%);
         margin: 0;
-        width: 160px;
-        height: 160px;
+        width: 180px;
+        height: 180px;
         border-radius: 50%;
         border: 5px solid var(--card);
       }
@@ -159,8 +160,8 @@
 
     @media (max-width: 480px) {
       .card-image-container {
-        width: 130px;
-        height: 130px;
+        width: 150px;
+        height: 150px;
         top: -65px;
       }
 
@@ -183,7 +184,6 @@
     <div class="card-content">
       <h2>Lorenzo Recchia</h2>
       <h3 id="role"></h3>
-      <p id="description"></p>
       <p id="description2"></p>
       <div class="socials">
         <a href="https://linkedin.com/in/lorenzo-recchia-55241a359" target="_blank">
@@ -206,20 +206,16 @@
   <script>
     const lang = (navigator.language || navigator.userLanguage).toLowerCase();
     const roleEl = document.getElementById("role");
-    const descEl = document.getElementById("description");
     const descEl2 = document.getElementById("description2");
 
     if (lang.startsWith("it")) {
-      roleEl.innerText = "Studente";
-      descEl.innerText = "Ciao, sono Lorenzo.";
+      roleEl.innerText = "Studente | Putignano, Italia";
       descEl2.innerText = "Sono uno studente dell’ultimo anno delle scuole superiori in Italia, attualmente iscritto a un indirizzo specializzato in Informatica.";
     } else if (lang.startsWith("de")) {
-      roleEl.innerText = "Schüler";
-      descEl.innerText = "Ich heiße Lorenzo.";
+      roleEl.innerText = "Schüler | Putignano, Italien";
       descEl2.innerText = "Ich bin ein Schüler im letzten Jahr der Oberstufe in Italien und besuche derzeit einen spezialisierten Bildungsgang im Bereich Informationstechnologie.";
     } else {
-      roleEl.innerText = "Student";
-      descEl.innerText = "Hi, I'm Lorenzo.";
+      roleEl.innerText = "Student | Putignano, Italy";
       descEl2.innerText = "I am a senior high school student based in Italy, currently attending a specialized program in Information Technology.";
     }
   </script>
