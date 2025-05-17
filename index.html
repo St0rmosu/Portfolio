@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -15,6 +15,11 @@
       --text-color: #eee;
       --primary-color: #8fbc8f;
     }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -24,17 +29,22 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
+
     .container {
       background-color: #222;
-      padding: 2rem;
+      padding: 2rem 3rem;
       border-radius: 12px;
       box-shadow: 0 0 15px rgba(143, 188, 143, 0.7);
       text-align: center;
-      width: 320px;
+      width: 350px;
+      user-select: none;
     }
+
     .animated-text {
-      font-size: 2rem;
+      font-size: 2.4rem;
       font-weight: 700;
       margin-bottom: 1rem;
       background: linear-gradient(90deg, #aaffaa, #55aa55);
@@ -42,6 +52,7 @@
       -webkit-text-fill-color: transparent;
       animation: pulse 2s infinite alternate;
     }
+
     @keyframes pulse {
       0% {
         filter: brightness(0.8);
@@ -50,96 +61,115 @@
         filter: brightness(1.3);
       }
     }
+
     .socials {
-      margin: 1rem 0;
+      margin: 1.2rem 0 1.8rem;
       display: flex;
       justify-content: center;
-      gap: 15px;
+      gap: 20px;
       align-items: center;
-      position: relative;
     }
+
     .socials a {
       color: var(--text-color);
       font-size: 1.6rem;
-      transition: transform 0.2s ease, color 0.3s ease;
+      transition: transform 0.25s ease, color 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
+
     .socials a:hover {
       color: var(--primary-color);
       transform: scale(1.3);
     }
 
-    /* CV dropdown */
-    .cv-dropdown-icon {
+    /* MENU BUTTON */
+
+    .menu-container {
       position: relative;
       display: inline-block;
     }
-    .cv-icon-button {
+
+    .menu-button {
+      font-size: 26px;
+      cursor: pointer;
+      border: none;
       background: var(--button-gradient);
-      width: 40px;
-      height: 40px;
+      color: #eee;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       display: flex;
-      align-items: center;
       justify-content: center;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-      color: #eee;
-      font-size: 1.3rem;
+      align-items: center;
+      transition: transform 0.25s ease, background 0.3s ease;
       user-select: none;
     }
-    .cv-icon-button:hover {
-      transform: scale(1.3);
+
+    .menu-button:hover {
+      background: #7a9a28;
+      transform: scale(1.2);
     }
-    .dropdown-content {
+
+    .dropdown-menu {
       display: none;
       position: absolute;
-      background-color: #f1f1f1;
-      min-width: 160px;
-      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-      z-index: 10;
       top: 50px;
       right: 0;
+      background-color: #f1f1f1;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+      padding: 10px 0;
       border-radius: 8px;
-      overflow: hidden;
+      min-width: 160px;
+      z-index: 10;
+      user-select: none;
     }
-    .dropdown-content a {
-      color: black;
-      padding: 12px 16px;
+
+    .dropdown-menu a {
+      display: block;
       text-decoration: none;
-      display: block;
-      transition: background-color 0.2s;
+      color: #222;
+      padding: 10px 20px;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
+      transition: background-color 0.2s ease;
+      user-select: none;
     }
-    .dropdown-content a:hover {
+
+    .dropdown-menu a:hover {
       background-color: #ddd;
-    }
-    /* Show dropdown on hover */
-    .cv-dropdown-icon:hover .dropdown-content {
-      display: block;
     }
 
     .description {
+      font-size: 1.05rem;
+      min-height: 3rem;
       margin-top: 1rem;
-      font-size: 1rem;
-      min-height: 2.5rem;
+      line-height: 1.3;
     }
 
     .language-buttons {
-      margin-top: 1.5rem;
+      margin-top: 1.7rem;
+      display: flex;
+      justify-content: center;
+      gap: 18px;
     }
+
     .language-buttons button {
       background: var(--button-gradient);
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       color: #eee;
       font-weight: 700;
       cursor: pointer;
-      margin: 0 10px;
-      padding: 8px 18px;
+      padding: 9px 22px;
       font-size: 1rem;
       transition: background 0.3s ease;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+      user-select: none;
     }
+
     .language-buttons button:hover {
       background: #7a9a28;
     }
@@ -147,63 +177,77 @@
 </head>
 <body>
   <div class="container">
-    <div class="content">
-      <h1 class="animated-text">Recchia Lorenzo</h1>
-      <div class="socials">
-        <a href="https://linkedin.com/in/lorenzo-recchia-55241a359" target="_blank" aria-label="Linkedin">
-          <i class="fa-brands fa-linkedin"></i>
-        </a>
-        <a href="https://github.com/St0rmosu" target="_blank" aria-label="GitHub">
-          <i class="fa-brands fa-github"></i>
-        </a>
-        <a href="https://instagram.com/st0rmosu" target="_blank" aria-label="Instagram">
-          <i class="fa-brands fa-instagram"></i>
-        </a>
-        <a href="tel:+393713244193" target="_blank" aria-label="WhatsApp">
-          <i class="fa-brands fa-whatsapp"></i>
-        </a>
+    <h1 class="animated-text">Recchia Lorenzo</h1>
 
-        <!-- Bottone CV con dropdown -->
-        <div class="cv-dropdown-icon" aria-label="Curriculum Vitae menu">
-          <div class="cv-icon-button" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
-            <i class="fa-solid fa-file-lines"></i>
-          </div>
-          <div class="dropdown-content" role="menu">
-            <a href="https://st0rmosu.github.io/Curriculum_Ita.pdf" download id="cv-italian" role="menuitem" tabindex="-1">
-              <i class="fa-solid fa-file-arrow-down"></i> CV Italiano
-            </a>
-            <a href="https://st0rmosu.github.io/Curriculum_Eng.pdf" download id="cv-english" role="menuitem" tabindex="-1">
-              <i class="fa-solid fa-file-arrow-down"></i> CV Inglese
-            </a>
-          </div>
+    <div class="socials" aria-label="Social media links">
+      <a href="https://linkedin.com/in/lorenzo-recchia-55241a359" target="_blank" aria-label="Linkedin">
+        <i class="fa-brands fa-linkedin"></i>
+      </a>
+      <a href="https://github.com/St0rmosu" target="_blank" aria-label="GitHub">
+        <i class="fa-brands fa-github"></i>
+      </a>
+      <a href="https://instagram.com/st0rmosu" target="_blank" aria-label="Instagram">
+        <i class="fa-brands fa-instagram"></i>
+      </a>
+      <a href="tel:+393713244193" target="_blank" aria-label="WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+      </a>
+
+      <div class="menu-container" aria-label="Menu Curriculum Vitae">
+        <button class="menu-button" id="menuToggle" aria-haspopup="true" aria-expanded="false" aria-controls="cvMenu" aria-label="Apri menu CV">
+          ≡
+        </button>
+        <div class="dropdown-menu" id="cvMenu" role="menu" aria-hidden="true">
+          <a href="https://st0rmosu.github.io/Curriculum_Ita.pdf" download role="menuitem" tabindex="-1">CV Italiano</a>
+          <a href="https://st0rmosu.github.io/Curriculum_Eng.pdf" download role="menuitem" tabindex="-1">CV Inglese</a>
         </div>
       </div>
-      <p class="description"></p>
-      <div class="language-buttons">
-        <button onclick="changeLanguage('it')">Italiano</button>
-        <button onclick="changeLanguage('en')">English</button>
-      </div>
+    </div>
+
+    <p class="description"></p>
+
+    <div class="language-buttons">
+      <button onclick="changeLanguage('it')" aria-label="Italiano">Italiano</button>
+      <button onclick="changeLanguage('en')" aria-label="English">English</button>
     </div>
   </div>
 
   <script>
     const description = document.querySelector(".description");
-    const cvItalian = document.getElementById("cv-italian");
-    const cvEnglish = document.getElementById("cv-english");
+    const menuToggle = document.getElementById("menuToggle");
+    const cvMenu = document.getElementById("cvMenu");
+    let menuOpen = false;
 
     function changeLanguage(lang) {
       if (lang === "it") {
         description.textContent = "Studente appassionato di informatica, sistemista junior e sviluppatore software.";
-        cvItalian.innerHTML = '<i class="fa-solid fa-file-arrow-down"></i> CV Italiano';
-        cvEnglish.innerHTML = '<i class="fa-solid fa-file-arrow-down"></i> CV Inglese';
       } else if (lang === "en") {
         description.textContent = "Student passionate about IT, junior system administrator and software developer.";
-        cvItalian.innerHTML = '<i class="fa-solid fa-file-arrow-down"></i> CV ITA';
-        cvEnglish.innerHTML = '<i class="fa-solid fa-file-arrow-down"></i> CV ENG';
       }
     }
 
+    // Inizializza in italiano
     changeLanguage("it");
+
+    // Toggle menu CV
+    menuToggle.addEventListener("click", () => {
+      menuOpen = !menuOpen;
+      cvMenu.style.display = menuOpen ? "block" : "none";
+      menuToggle.textContent = menuOpen ? "📄" : "≡";
+      menuToggle.setAttribute("aria-expanded", menuOpen);
+      cvMenu.setAttribute("aria-hidden", !menuOpen);
+    });
+
+    // Close menu if click outside
+    document.addEventListener("click", (e) => {
+      if (!menuToggle.contains(e.target) && !cvMenu.contains(e.target)) {
+        menuOpen = false;
+        cvMenu.style.display = "none";
+        menuToggle.textContent = "≡";
+        menuToggle.setAttribute("aria-expanded", "false");
+        cvMenu.setAttribute("aria-hidden", "true");
+      }
+    });
   </script>
 </body>
 </html>
