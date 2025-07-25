@@ -5,17 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Profile Card</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
-  <!-- Font Awesome 6 CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * { box-sizing: border-box; }
-    a { color: black; }
+    a { color: black; text-decoration: none; }
 
     :root {
-      --gradient: linear-gradient(135deg, #cfcfcf 0%, #999999 50%, #5a5a5a 100%);
-      --card: #2e2e2e;
-      --gold-light: #f5d879;
-      --button-gradient: linear-gradient(45deg, #dcdcdc, #f5d879);
+      --gradient: linear-gradient(135deg, #E8F4FA 0%, #88A096 50%, #1C1C1C 100%);
+      --card: #1C1C1C;
+      --gold-light: #F5E1A4;
+      --button-gradient: linear-gradient(45deg, #F5E1A4, #C1272D);
+      --text-main: #E8F4FA;
+      --text-secondary: #88A096;
+      --accent: #C1272D;
       --transition-time: 0.5s;
     }
 
@@ -24,7 +26,7 @@
       background-attachment: fixed;
       background-size: cover;
       font-family: "Montserrat", sans-serif;
-      color: #fdfcfd;
+      color: var(--text-main);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -46,6 +48,7 @@
       overflow: visible;
       position: relative;
       transition: all var(--transition-time) ease;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
 
     .card-image-container {
@@ -59,6 +62,8 @@
       overflow: hidden;
       background: var(--gradient);
       transition: all var(--transition-time) ease;
+      border: 4px solid transparent;
+      box-shadow: 0 0 0 3px var(--accent);
     }
 
     .card img {
@@ -102,13 +107,13 @@
     }
 
     .socials i {
-      color: black;
+      color: white;
       font-size: 18px;
       transition: color 0.3s ease;
     }
 
-    .socials a:hover i { color: black !important; }
-    
+    .socials a:hover i { color: var(--accent) !important; }
+
     .cv-dropdown-icon .dropdown-content {
       position: absolute;
       background: var(--card);
@@ -123,49 +128,48 @@
       overflow: hidden;
       transition: all 0.3s ease;
       display: none;
+      border: 1px solid var(--accent);
     }
-    
+
     .cv-dropdown-icon .dropdown-content a {
-      color: white;
+      color: var(--text-main);
       background: transparent;
       padding: 12px 16px;
-      text-decoration: none;
       display: block;
       transition: background 0.3s ease;
       font-size: 14px;
       width: 100%;
       height: auto;
-      border-radius: 0;
       text-align: left;
     }
-    
+
     .cv-dropdown-icon .dropdown-content a:hover {
-      background: rgba(255,255,255,0.1);
-      transform: none;
+      background: rgba(255,255,255,0.08);
     }
-    
+
     .cv-dropdown-icon .dropdown-content a i {
       margin-right: 8px;
       width: 16px;
     }
-    
+
     .show {
       display: block !important;
     }
-    
+
     .cv-dropdown {
       display: none;
     }
-    
+
     h2 {
       margin-bottom: 5px;
       font-size: 36px;
       transition: all var(--transition-time) ease;
+      color: var(--gold-light);
     }
 
     h3 {
       margin-top: 0;
-      color: var(--gold-light);
+      color: var(--text-secondary);
       font-weight: 400;
       margin-bottom: 15px;
       font-size: 20px;
@@ -175,7 +179,7 @@
     p {
       line-height: 1.6;
       max-width: 90%;
-      color: white;
+      color: var(--text-main);
       transition: all var(--transition-time) ease;
     }
 
@@ -254,7 +258,7 @@
           <i class="fab fa-github"></i>
         </a>
         <div class="cv-dropdown-icon" id="cvDropdownIcon" tabindex="0" aria-haspopup="true" aria-expanded="false" role="button" aria-label="Open CV dropdown">
-          <i class="fas fa-file-contract"></i> <!-- Icona aggiornata qui -->
+          <i class="fas fa-file-contract"></i>
           <div class="dropdown-content" id="cvDropdownContent" role="menu" aria-label="Download CV">
             <a href="Curriculum_Ita.pdf" download="Curriculum_Ita.pdf" role="menuitem" aria-label="Download CV in Italian">
               <i class="fas fa-file-pdf invert"></i> CV IT
@@ -269,26 +273,22 @@
   </div>
 
   <script>
-    // Dati dinamici per lingua e contenuto
     const dataIT = {
       ruolo: "Studente | Putignano, Italia",
       descrizione: "Sono uno studente che sta finendo il suo percorso di studi alle superiori e sono appassionato nel mondo del web developing"
     };
     const dataEN = {
       ruolo: "Student | Putignano, Italy",
-      descrizione: "I am a student completing my high school education in Italy."
+      descrizione: "I am a student finishing his high school studies and I am passionate about the world of web developing."
     };
 
-    // Rileva la lingua preferita del browser
     function detectLanguage() {
       const userLang = navigator.language || navigator.userLanguage;
       return userLang.toLowerCase().startsWith("it") ? "IT" : "EN";
     }
 
-    // Lingua in base alle preferenze del browser
     let lang = detectLanguage();
 
-    // Funzione per aggiornare testo dinamico
     function updateContent() {
       const roleEl = document.getElementById("role");
       const descEl = document.getElementById("description2");
@@ -305,7 +305,6 @@
 
     updateContent();
 
-    // Dropdown CV toggle su click
     const cvIcon = document.getElementById("cvDropdownIcon");
     const cvDropdown = document.getElementById("cvDropdownContent");
     cvIcon.addEventListener("click", (e) => {
@@ -320,7 +319,6 @@
       }
     });
 
-    // Chiudi dropdown se clicco fuori
     document.addEventListener("click", () => {
       if(cvDropdown.classList.contains("show")) {
         cvDropdown.classList.remove("show");
@@ -328,7 +326,6 @@
       }
     });
 
-    // Permetti chiusura con ESC da tastiera
     document.addEventListener("keydown", (e) => {
       if(e.key === "Escape" && cvDropdown.classList.contains("show")) {
         cvDropdown.classList.remove("show");
