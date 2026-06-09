@@ -10,29 +10,29 @@
 
 :root{
   /* Pissarro — Eragny's Garden palette */
-  --bg:   #1a1510;   /* quasi nero caldo, terra scura */
-  --bg2:  #201c16;   /* superficie finestre */
-  --bg3:  #2a2318;   /* superficie cards/inner */
-  --border:  #3a3228; /* bordi sottili */
-  --border2: #4f4535; /* bordi evidenti */
+  --bg:   #1a1510;   /* quasi nero caldo */
+  --bg2:  #201c16;
+  --bg3:  #2a2318;
+  --border:  #3a3228;
+  --border2: #4f4535;
 
-  /* accento principale: beige dorato dal quadro */
-  --orange:  #c4a96a;  /* beige caldo — titoli, accent */
-  --orange2: #9c7e44;  /* beige scuro — bordi attivi */
-  --orange3: #d9c090;  /* beige chiaro — hover */
+  /* Primary accent: Golden Beige (#c4a96a) */
+  --orange:  #c4a96a;
+  --orange2: #9c7e44;
+  --orange3: #d9c090;
 
-  /* testi */
-  --dim:   #6b6050;   /* testo muted */
-  --text:  #d4c9b0;   /* testo principale — lino chiaro */
-  --text2: #9a8e78;   /* testo secondario */
+  /* Secondary accents for sections */
+  --green: #7a9e72;   /* Section 2 (Projects) */
+  --blue:  #8faabf;   /* Section 3 (Contact) */
+  --mauve: #a08878;
+  --yellow:#c9b86c;
+  --peach: #c49070;
+  --teal:  #6e9480;
 
-  /* colori sezione dal quadro */
-  --green: #7a9e72;   /* verde foglie */
-  --blue:  #8faabf;   /* cielo grigio-azzurro */
-  --mauve: #a08878;   /* rosa antico mattone */
-  --yellow:#c9b86c;   /* girasoli */
-  --peach: #c49070;   /* fiori rosa-salmone */
-  --teal:  #6e9480;   /* verde-grigio fogliame */
+  /* text colors */
+  --dim:   #6b6050;
+  --text:  #d4c9b0;
+  --text2: #9a8e78;
 
   --font:'JetBrains Mono',monospace;
   --gap:10px;--tb:30px;--topbar:30px;--bar:0px;
@@ -66,7 +66,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .tb-wl{display:flex;gap:6px}
 .ws-pill{display:flex;gap:4px;align-items:center;background:rgba(255,255,255,0.04);border:1px solid var(--border2);border-radius:4px;padding:3px 10px;font-size:10px;color:var(--text2);cursor:pointer;transition:all 0.15s}
 .ws-pill:hover{border-color:var(--orange2);color:var(--text)}
-.ws-pill.active{border-color:var(--orange);color:var(--orange);background:rgba(196,169,106,0.1)}
+.ws-pill.active{border-color:var(--ws-c, var(--orange));color:var(--ws-c, var(--orange));background:color-mix(in srgb, var(--ws-c, var(--orange)) 15%, transparent)}
 .ws-pill .ws-dot{width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.5}
 .ws-pill.active .ws-dot{opacity:1}
 .ws-pill.ws-occupied .ws-dot{opacity:0.8}
@@ -91,16 +91,69 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   border-radius:8px;overflow:hidden;
   display:flex;flex-direction:column;
   backdrop-filter:blur(12px);
-  /* smooth retile */
-  transition:flex 0.26s cubic-bezier(.4,0,.2,1),
-             width 0.26s cubic-bezier(.4,0,.2,1),
-             border-color 0.15s, box-shadow 0.15s;
+  /* 120fps optimization: use will-change and transform-based transitions */
+  will-change: flex, width, transform, opacity;
+  transform: translateZ(0); 
+  transition: flex 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+             width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+             border-color 0.2s ease, box-shadow 0.2s ease,
+             transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+             opacity 0.25s ease;
   min-width:0;min-height:0;
 }
-.win:hover{border-color:rgba(196,169,106,0.25)}
-.win.focused{border-color:rgba(196,169,106,0.65);box-shadow:0 0 0 1px rgba(196,169,106,0.12),0 8px 32px rgba(0,0,0,0.6)}
-@keyframes winIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
-.win{animation:winIn 0.2s ease both}
+.win:hover{border-color:rgba(196,169,106,0.35)}
+.win.focused{border-color:rgba(196,169,106,0.75);box-shadow:0 0 0 1px rgba(196,169,106,0.15),0 12px 40px rgba(0,0,0,0.7)}
+
+/* MOBILE OPTIMIZATION */
+@media (max-width: 768px) {
+  :root {
+    --gap: 5px;
+    --tb: 35px;
+    --topbar: 40px;
+  }
+  html, body { font-size: 18px; }
+  
+  #desktop {
+    flex-direction: column;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  #left-box {
+    width: 100% !important;
+    flex-shrink: 1 !important;
+    margin-right: 0 !important;
+    margin-bottom: var(--gap);
+  }
+  
+  .win {
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    max-height: 85vh;
+  }
+  
+  .projgrid, .cgrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .tb-logo { display: none; }
+  .tb-right { font-size: 12px; }
+  
+  /* Make tap targets larger */
+  .citem, .ws-pill {
+    padding: 12px 15px;
+  }
+  
+  .wtbar { height: 40px; }
+  .wdots { gap: 10px; }
+  .wdot { width: 14px; height: 14px; }
+}
+
+@keyframes winIn{
+  from{opacity:0;transform:scale(0.94) translateY(15px); filter: blur(4px); }
+  to{opacity:1;transform:scale(1) translateY(0); filter: blur(0); }
+}
+.win{animation:winIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both}
 
 /* TITLEBAR */
 .wtbar{
@@ -186,9 +239,9 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .ctitle{font-size:13px;color:var(--orange);margin-bottom:10px;font-family:'Share Tech Mono',monospace}
 .citem{display:flex;align-items:center;gap:7px;padding:8px 11px;margin-bottom:2px;border-radius:3px;cursor:pointer;font-size:15px;color:var(--text2);border:1px solid transparent;transition:all 0.12s}
 .citem:hover{color:var(--text);background:rgba(255,255,255,0.03)}
-.citem.active{background:rgba(196,169,106,0.08);border-color:var(--item-c,var(--orange));color:var(--item-c,var(--orange));font-weight:500}
-.citem.active .cicon{color:var(--item-c,var(--orange))}
-.cicon{color:var(--orange2);width:18px}.carr{color:var(--dim);font-size:13px;margin-left:auto}
+.citem.active{background:rgba(196,169,106,0.08);border-color:var(--item-c);color:var(--item-c);font-weight:500}
+.citem .cicon{color:var(--item-c, var(--orange2))}
+.cicon{width:18px}.carr{color:var(--dim);font-size:13px;margin-left:auto}
 .chint{margin-top:10px;font-size:13px;color:var(--dim)}
 
 .wlabel{font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
@@ -269,16 +322,16 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   to   { transform:translateX(100%); }
 }
 html[data-vt="forward"] ::view-transition-old(ws-content){
-  animation:280ms cubic-bezier(.4,0,.2,1) both vt-slide-out-left;
+  animation:350ms cubic-bezier(0.4, 0, 0.2, 1) both vt-slide-out-left;
 }
 html[data-vt="forward"] ::view-transition-new(ws-content){
-  animation:280ms cubic-bezier(.4,0,.2,1) both vt-slide-in-right;
+  animation:350ms cubic-bezier(0.4, 0, 0.2, 1) both vt-slide-in-right;
 }
 html[data-vt="back"] ::view-transition-old(ws-content){
-  animation:280ms cubic-bezier(.4,0,.2,1) both vt-slide-out-right;
+  animation:350ms cubic-bezier(0.4, 0, 0.2, 1) both vt-slide-out-right;
 }
 html[data-vt="back"] ::view-transition-new(ws-content){
-  animation:280ms cubic-bezier(.4,0,.2,1) both vt-slide-in-left;
+  animation:350ms cubic-bezier(0.4, 0, 0.2, 1) both vt-slide-in-left;
 }
 @media(prefers-reduced-motion:reduce){
   ::view-transition-old(ws-content),::view-transition-new(ws-content){animation:none}
@@ -330,9 +383,9 @@ profile:`<div class="p">
 
 contents:`<div class="p">
   <div class="ctitle">Contents</div>
-  <div class="citem" data-open="about"    style="--item-c:var(--orange)"><span class="cicon" style="color:var(--item-c)">├─</span><span>About</span></div>
-  <div class="citem" data-open="projects" style="--item-c:var(--blue)">  <span class="cicon" style="color:var(--item-c)">├─</span><span>Projects/</span><span class="carr">▶</span></div>
-  <div class="citem" data-open="contact"  style="--item-c:var(--mauve)"> <span class="cicon" style="color:var(--item-c)">└─</span><span>Contact</span></div>
+  <div class="citem" data-open="about"    style="--item-c:var(--orange)"><span class="cicon">├─</span><span>About</span></div>
+  <div class="citem" data-open="projects" style="--item-c:var(--green)"><span class="cicon">├─</span><span>Projects/</span><span class="carr">▶</span></div>
+  <div class="citem" data-open="contact"  style="--item-c:var(--blue)"><span class="cicon">└─</span><span>Contact</span></div>
   <div class="chint">click → workspace · Tab to cycle</div>
 </div>`,
 
@@ -481,7 +534,8 @@ const tray    = document.getElementById('tray');
 
 const leftBox = document.createElement('div');
 leftBox.id = 'left-box';
-leftBox.style.cssText = 'display:flex;flex-direction:column;gap:5px;width:320px;flex-shrink:0;transition:width 0.26s cubic-bezier(.4,0,.2,1),opacity 0.26s;position:relative;z-index:2';
+leftBox.style.cssText = 'display:flex;flex-direction:column;gap:5px;width:320px;flex-shrink:0;position:relative;z-index:2';
+leftBox.style.viewTransitionName = 'left-sidebar';
 
 desktop.appendChild(leftBox);
 
@@ -517,8 +571,11 @@ function makeEl(id, title, html, delay) {
   const [dr,dy,dg] = el.querySelectorAll('.wdot');
   dr.onclick = e => {
     e.stopPropagation();
-    if (currentWs !== '1') switchWs('1', false);
-    else closeWin(id);
+    if (WS_SEC[id.replace(/\d+$/, '')]) {
+      switchWs('1', false);
+    } else {
+      closeWin(id);
+    }
   };
   dy.onclick = e => { e.stopPropagation(); toggleMin(id); };
   dg.onclick = e => { e.stopPropagation(); toggleMax(id); };
@@ -622,7 +679,9 @@ function closeWin(id) {
     w.el.remove();
     delete wins[id];
     removeTray(id);
+    updateWsBar();
     retile();
+    if (currentWs !== '1') switchWs('1', false);
   }, 160);
 }
 
@@ -718,15 +777,16 @@ function getOrCreateWsMain(ws) {
 
 /* show/hide leftBox based on workspace */
 function setLeftBoxVisible(visible) {
-  leftBox.style.transition = 'width 0.28s cubic-bezier(.4,0,.2,1), opacity 0.22s';
   if (visible) {
     leftBox.style.width   = '320px';
     leftBox.style.opacity = '1';
+    leftBox.style.marginRight = 'var(--gap)';
     leftBox.style.overflow = '';
     leftBox.style.pointerEvents = '';
   } else {
     leftBox.style.width   = '0px';
     leftBox.style.opacity = '0';
+    leftBox.style.marginRight = '0px';
     leftBox.style.overflow = 'hidden';
     leftBox.style.pointerEvents = 'none';
   }
@@ -748,8 +808,8 @@ function switchWs(ws, spawnIfNew) {
     box.style.display = 'flex';
     box.style.viewTransitionName = 'ws-content';
 
-    /* spawn section win if box empty */
-    if (box.children.length === 0) {
+    /* spawn section win if box empty AND requested */
+    if (spawnIfNew && box.children.length === 0) {
       const sec = WS_SEC[ws];
       if (sec) {
         const winId = 's'+sec+ws;
@@ -788,14 +848,26 @@ function switchWs(ws, spawnIfNew) {
 }
 
 function updateWsBar() {
+  const wsColors = {'1':'var(--orange)', '2':'var(--green)', '3':'var(--blue)'};
   document.querySelectorAll('.ws-pill[data-ws]').forEach(p => {
     const w = p.dataset.ws;
     const occupied = !!(wsMain[w] && wsMain[w].children.length > 0);
+    const color = wsColors[w] || 'var(--orange)';
+    p.style.setProperty('--ws-c', color);
     p.classList.toggle('active', w === currentWs);
     p.classList.toggle('ws-occupied', occupied);
+    
+    if (w === currentWs) {
+      p.style.color = color;
+      p.style.borderColor = color;
+    } else {
+      p.style.color = '';
+      p.style.borderColor = '';
+    }
+
     const sec = WS_SEC[w];
     const names = {about:'about', projects:'proj', contact:'contact'};
-    p.innerHTML = `<div class="ws-dot"></div>${occupied && sec ? ' '+w+': '+names[sec] : ' '+w}`;
+    p.innerHTML = `<div class="ws-dot" style="background:${color};box-shadow:0 0 5px ${color}"></div>${occupied && sec ? ' '+w+': '+names[sec] : ' '+w}`;
   });
 }
 
@@ -952,10 +1024,16 @@ async function loadGitHubRepos() {
     const res  = await fetch('https://api.github.com/users/St0rmosu/repos?per_page=100&sort=updated');
     if (!res.ok) throw new Error('API error');
     const repos = await res.json();
-    // sort by stars desc, then forks
-    repos.sort((a,b) => (b.stargazers_count - a.stargazers_count) || (b.forks_count - a.forks_count));
-    // filter out forks, take top 8
-    const visible = repos.filter(r => !r.fork && !r.archived).slice(0, 8);
+    // sort by stars desc, then forks, then size (proxy for activity/commits)
+    repos.sort((a,b) => (b.stargazers_count - a.stargazers_count) || (b.forks_count - a.forks_count) || (b.size - a.size));
+    // filter out forks, archived, and common "learning" or "meta" repos
+    const visible = repos.filter(r => 
+      !r.fork && 
+      !r.archived && 
+      !r.name.toLowerCase().includes('esercizi') &&
+      !r.name.toLowerCase().includes('esercizio') &&
+      r.name !== 'St0rmosu'
+    ).slice(0, 8);
     if (visible.length === 0) throw new Error('no repos');
 
     if (sub) sub.textContent = `// ${repos.filter(r=>!r.fork).length} repo pubblici · ordinati per ★`;
