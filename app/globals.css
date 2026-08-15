@@ -2423,9 +2423,9 @@ html[data-vt="back"]::view-transition-new(ws-content) {
   #topbar.end4-vbar,
   aside#topbar.end4-vbar {
     top: auto !important;
-    bottom: max(10px, env(safe-area-inset-bottom, 10px)) !important;
-    left: 10px !important;
-    right: 10px !important;
+    bottom: max(18px, calc(14px + env(safe-area-inset-bottom, 0px))) !important;
+    left: 12px !important;
+    right: 12px !important;
     width: auto !important;
     height: 52px !important;
     min-height: 52px !important;
@@ -2438,7 +2438,7 @@ html[data-vt="back"]::view-transition-new(ws-content) {
     border-radius: 9999px !important;
     background: var(--black) !important;
     border: 1px solid var(--border) !important;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.75) !important;
+    box-shadow: 0 10px 36px rgba(0, 0, 0, 0.85) !important;
     z-index: 9999 !important;
     box-sizing: border-box !important;
   }
@@ -2610,7 +2610,8 @@ html[data-vt="back"]::view-transition-new(ws-content) {
     left: 0;
     right: 0;
     bottom: 0;
-    padding: 10px 10px calc(74px + env(safe-area-inset-bottom, 10px)) 10px;
+    height: 100dvh;
+    padding: 10px 10px calc(88px + env(safe-area-inset-bottom, 0px)) 10px;
     flex-direction: column;
     overflow-y: auto;
     overflow-x: hidden;
@@ -2647,7 +2648,7 @@ html[data-vt="back"]::view-transition-new(ws-content) {
   }
 
   .ws-main .win {
-    min-height: calc(100dvh - 94px) !important;
+    min-height: calc(100dvh - 108px) !important;
     flex: 1 1 auto !important;
   }
 
