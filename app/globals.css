@@ -2628,17 +2628,8 @@ html[data-vt="back"]::view-transition-new(ws-content) {
     display: none !important;
   }
 
-  .left-box {
-    width: 100% !important;
-    min-width: 0 !important;
-    flex: 0 0 auto !important;
-    gap: 10px;
-  }
-
-  #desktop:not([data-ws="1"]) .left-box {
-    display: none !important;
-  }
-
+  .left-box,
+  .win[data-wkey="profile"],
   .win[data-wkey="contents"] {
     display: none !important;
   }
@@ -2655,7 +2646,7 @@ html[data-vt="back"]::view-transition-new(ws-content) {
     flex-direction: column !important;
   }
 
-  #desktop:not([data-ws="1"]) .ws-main .win {
+  .ws-main .win {
     min-height: calc(100dvh - 94px) !important;
     flex: 1 1 auto !important;
   }
