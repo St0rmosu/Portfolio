@@ -2423,9 +2423,9 @@ html[data-vt="back"]::view-transition-new(ws-content) {
   #topbar.end4-vbar,
   aside#topbar.end4-vbar {
     top: auto !important;
-    bottom: max(10px, env(safe-area-inset-bottom, 10px)) !important;
-    left: 10px !important;
-    right: 10px !important;
+    bottom: 5px !important;
+    left: 8px !important;
+    right: 8px !important;
     width: auto !important;
     height: 52px !important;
     min-height: 52px !important;
@@ -2433,7 +2433,7 @@ html[data-vt="back"]::view-transition-new(ws-content) {
     flex-direction: row !important;
     justify-content: space-between !important;
     align-items: center !important;
-    padding: 0 10px !important;
+    padding: 0 8px !important;
     gap: 0 !important;
     border-radius: 9999px !important;
     background: var(--black) !important;
@@ -2610,19 +2610,19 @@ html[data-vt="back"]::view-transition-new(ws-content) {
     left: 0;
     right: 0;
     bottom: 0;
-    padding: 10px 10px calc(74px + env(safe-area-inset-bottom, 10px)) 10px;
+    padding: 8px 8px 65px 8px;
     flex-direction: column;
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
-    gap: 10px;
+    gap: 8px;
   }
 
   .ws-main {
     width: 100% !important;
     flex: 1 1 auto;
     flex-direction: column !important;
-    gap: 10px !important;
+    gap: 8px !important;
   }
   .ws-main[style*="display: none"] {
     display: none !important;
@@ -2647,7 +2647,7 @@ html[data-vt="back"]::view-transition-new(ws-content) {
   }
 
   .ws-main .win {
-    min-height: calc(100dvh - 94px) !important;
+    min-height: calc(100dvh - 80px) !important;
     flex: 1 1 auto !important;
   }
 
