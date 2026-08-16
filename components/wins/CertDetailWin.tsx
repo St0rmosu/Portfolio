@@ -48,54 +48,54 @@ export default function CertDetailWin({ cert, onClose }: CertDetailWinProps) {
             <span className="pdetail-name">{cert.name}</span>
             <span className="pdetail-badge cert-badge">{cert.issuer}</span>
           </div>
+        </div>
 
-          <div className="pdetail-header-right">
-            {detail.previewImg && (
-              <button
-                onClick={() => setLightboxOpen(true)}
-                className="pdetail-pdf-btn"
-                title="Ingrandisci a schermo intero"
-              >
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="15 3 21 3 21 9" />
-                  <polyline points="9 21 3 21 3 15" />
-                  <line x1="21" y1="3" x2="14" y2="10" />
-                  <line x1="3" y1="21" x2="10" y2="14" />
-                </svg>
-                <span>Ingrandisci</span>
-              </button>
-            )}
-
-            {detail.pdfUrl && (
-              <a
-                href={detail.pdfUrl}
-                download
-                className="pdetail-pdf-btn"
-                title="Scarica PDF Ufficiale"
-              >
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                  <polyline points="7 10 12 15 17 10" />
-                  <line x1="12" y1="15" x2="12" y2="3" />
-                </svg>
-                <span>Scarica PDF ↓</span>
-              </a>
-            )}
-
-            <a
-              href={cert.href}
-              target="_blank"
-              rel="noreferrer"
-              className="pdetail-gh-btn cert-verify-btn"
-              title="Verifica Credenziale Online"
+        <div className="cert-actions-row">
+          {detail.previewImg && (
+            <button
+              onClick={() => setLightboxOpen(true)}
+              className="pdetail-pdf-btn cert-action-btn"
+              title="Ingrandisci a schermo intero"
             >
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="8" r="6" />
-                <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
+                <polyline points="15 3 21 3 21 9" />
+                <polyline points="9 21 3 21 3 15" />
+                <line x1="21" y1="3" x2="14" y2="10" />
+                <line x1="3" y1="21" x2="10" y2="14" />
               </svg>
-              <span>Verifica Online ↗</span>
+              <span>Ingrandisci</span>
+            </button>
+          )}
+
+          {detail.pdfUrl && (
+            <a
+              href={detail.pdfUrl}
+              download
+              className="pdetail-pdf-btn cert-action-btn"
+              title="Scarica PDF Ufficiale"
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              <span>Scarica PDF ↓</span>
             </a>
-          </div>
+          )}
+
+          <a
+            href={cert.href}
+            target="_blank"
+            rel="noreferrer"
+            className="pdetail-gh-btn cert-verify-btn cert-action-btn"
+            title="Verifica Credenziale Online"
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="8" r="6" />
+              <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
+            </svg>
+            <span>Verifica Online ↗</span>
+          </a>
         </div>
       </div>
 
