@@ -163,6 +163,25 @@ export default function Window({
     target.addEventListener("pointerup", onUp);
   };
 
+  const handleClose = (e: React.MouseEvent) => {
+    stop(e);
+    const el = ref.current;
+    if (el) {
+      anime({
+        targets: el,
+        opacity: [1, 0],
+        scale: [1, 0.88],
+        translateY: [0, 14],
+        translateX: box === "left" ? [0, -30] : [0, 0],
+        duration: 260,
+        easing: "cubicBezier(0.16, 1, 0.3, 1)",
+        complete: () => onClose(id),
+      });
+    } else {
+      onClose(id);
+    }
+  };
+
   const handles = ["n", "s", "e", "w", "ne", "nw", "se", "sw"];
 
   return (
@@ -180,19 +199,25 @@ export default function Window({
             className="wdot wd-r"
             title="chiudi"
             onPointerDown={stop}
-            onClick={() => onClose(id)}
+            onClick={handleClose}
           />
           <span
             className="wdot wd-y"
             title="minimizza"
             onPointerDown={stop}
-            onClick={() => onMinimize(id)}
+            onClick={(e) => {
+              stop(e);
+              onMinimize(id);
+            }}
           />
           <span
             className="wdot wd-g"
             title="maximizza/ripristina"
             onPointerDown={stop}
-            onClick={() => onMaximize(id)}
+            onClick={(e) => {
+              stop(e);
+              onMaximize(id);
+            }}
           />
         </div>
         <div className="wtitle">{title}</div>
@@ -200,10 +225,7 @@ export default function Window({
           <span
             className="wback"
             onPointerDown={stop}
-            onClick={(e) => {
-              stop(e);
-              onClose(id);
-            }}
+            onClick={handleClose}
           >
             ← back
           </span>

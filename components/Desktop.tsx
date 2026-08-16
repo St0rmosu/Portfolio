@@ -256,10 +256,10 @@ export default function Desktop() {
         }
       />
       <div id="desktop" data-ws={currentWs}>
-        {leftVisible && (
+        {leftOrder.length > 0 && (
           <div
             id="left-box"
-            className="left-box"
+            className={`left-box ${!leftVisible ? "is-hidden" : ""}`}
             style={{ width: leftFull ? "100%" : `${leftW}px` }}
           >
             {leftOrder.map((id) => {

@@ -316,10 +316,26 @@ body::after {
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-width: none;
-  animation: hyprLeftBoxIn 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
-  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-    opacity 0.25s ease, margin-right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  will-change: width, min-width, transform, opacity, margin-right;
+  transition: width 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+    min-width 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+    margin-right 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.28s ease,
+    transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+.left-box.is-hidden {
+  width: 0 !important;
+  min-width: 0 !important;
+  margin-right: calc(-1 * var(--gap)) !important;
+  opacity: 0 !important;
+  transform: translateX(-40px) scale(0.95) !important;
+  pointer-events: none !important;
+  overflow: hidden !important;
+}
+
 .left-box::-webkit-scrollbar {
   display: none;
 }
@@ -332,6 +348,7 @@ body::after {
   display: flex;
   flex-direction: column;
   gap: var(--gap);
+  transition: flex 0.38s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ═══════ WINDOW ═══════ */
