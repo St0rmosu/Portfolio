@@ -13,8 +13,8 @@ interface WindowProps {
   back?: boolean;
   onFocus: (id: string) => void;
   onClose: (id: string) => void;
-  onMinimize: (id: string) => void;
-  onMaximize: (id: string) => void;
+  onMinimize?: (id: string) => void;
+  onMaximize?: (id: string) => void;
   onLeftWidth: (px: number) => void;
   children: React.ReactNode;
 }
@@ -60,8 +60,6 @@ export default function Window({
   back,
   onFocus,
   onClose,
-  onMinimize,
-  onMaximize,
   onLeftWidth,
   children,
 }: WindowProps) {
@@ -194,32 +192,6 @@ export default function Window({
       onPointerDown={handleFocus}
     >
       <div className="wtbar" onPointerDown={handleFocus}>
-        <div className="wdots">
-          <span
-            className="wdot wd-r"
-            title="chiudi"
-            onPointerDown={stop}
-            onClick={handleClose}
-          />
-          <span
-            className="wdot wd-y"
-            title="minimizza"
-            onPointerDown={stop}
-            onClick={(e) => {
-              stop(e);
-              onMinimize(id);
-            }}
-          />
-          <span
-            className="wdot wd-g"
-            title="maximizza/ripristina"
-            onPointerDown={stop}
-            onClick={(e) => {
-              stop(e);
-              onMaximize(id);
-            }}
-          />
-        </div>
         <div className="wtitle">{title}</div>
         {back && (
           <span
