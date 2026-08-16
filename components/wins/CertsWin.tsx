@@ -44,7 +44,7 @@ export default function CertsWin({ onOpenChange }: CertsWinProps) {
           <div className="proj-list-col">
             <div className="proj-list-header">
               <button
-                className="proj-back-grid-btn"
+                className="proj-back-grid-btn cert-back-grid-btn"
                 onClick={() => handleSelectCert(null)}
                 title="Torna alla griglia completa delle certificazioni (Esc)"
               >

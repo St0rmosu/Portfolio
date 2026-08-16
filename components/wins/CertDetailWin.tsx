@@ -31,7 +31,7 @@ export default function CertDetailWin({ cert, onClose }: CertDetailWinProps) {
         <div className="pdetail-header-left">
           <button
             onClick={onClose}
-            className="pdetail-back-btn"
+            className="pdetail-back-btn cert-back-btn"
             title="Torna alla griglia certificazioni (Esc)"
             aria-label="Torna alla griglia certificazioni"
           >
