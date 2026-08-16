@@ -247,7 +247,10 @@ export async function fetchRepoReadme(repoName: string): Promise<string> {
   }
 
   // Fallback to synthetic README if offline or not found
-  const kp = PROJECT_KEYPOINTS[repoName];
+  const matchKey = Object.keys(PROJECT_KEYPOINTS).find(
+    (k) => k.toLowerCase() === repoName.toLowerCase()
+  );
+  const kp = matchKey ? PROJECT_KEYPOINTS[matchKey] : undefined;
   if (kp) {
     const kpList = kp.keypoints.map((k) => (typeof k === "string" ? k : k.text));
     return `# ${kp.title}
@@ -277,8 +280,11 @@ cd ${repoName}
 }
 
 export function getProjectKeypoints(repoName: string): ProjectKeypoints {
-  if (PROJECT_KEYPOINTS[repoName]) {
-    return PROJECT_KEYPOINTS[repoName];
+  const matchKey = Object.keys(PROJECT_KEYPOINTS).find(
+    (k) => k.toLowerCase() === repoName.toLowerCase()
+  );
+  if (matchKey && PROJECT_KEYPOINTS[matchKey]) {
+    return PROJECT_KEYPOINTS[matchKey];
   }
   return {
     name: repoName,
