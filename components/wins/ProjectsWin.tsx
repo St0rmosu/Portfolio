@@ -101,10 +101,19 @@ function cleanDescription(desc: string | null): string {
     .trim();
 }
 
-export default function ProjectsWin() {
+interface ProjectsWinProps {
+  onOpenChange?: (open: boolean) => void;
+}
+
+export default function ProjectsWin({ onOpenChange }: ProjectsWinProps) {
   const [repos, setRepos] = useState<Repo[] | null>(null);
   const [error, setError] = useState(false);
   const [selectedRepo, setSelectedRepo] = useState<Repo | null>(null);
+
+  const handleSelectRepo = (r: Repo | null) => {
+    setSelectedRepo(r);
+    onOpenChange?.(r !== null);
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -145,13 +154,13 @@ export default function ProjectsWin() {
                   <div
                     key={r.name}
                     className={"pcard compact" + (isSelected ? " active" : "")}
-                    onClick={() => setSelectedRepo(r)}
+                    onClick={() => handleSelectRepo(r)}
                     role="button"
                     tabIndex={0}
                     onKeyDown={(e) => {
                       if (e.key === "Enter" || e.key === " ") {
                         e.preventDefault();
-                        setSelectedRepo(r);
+                        handleSelectRepo(r);
                       }
                     }}
                   >
@@ -181,7 +190,7 @@ export default function ProjectsWin() {
 
           {/* Right details column */}
           <div className="proj-detail-col">
-            <ProjectDetailWin repo={selectedRepo} onClose={() => setSelectedRepo(null)} />
+            <ProjectDetailWin repo={selectedRepo} onClose={() => handleSelectRepo(null)} />
           </div>
         </div>
       ) : (
@@ -210,13 +219,13 @@ export default function ProjectsWin() {
               <div
                 key={r.name}
                 className="pcard"
-                onClick={() => setSelectedRepo(r)}
+                onClick={() => handleSelectRepo(r)}
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
-                    setSelectedRepo(r);
+                    handleSelectRepo(r);
                   }
                 }}
               >

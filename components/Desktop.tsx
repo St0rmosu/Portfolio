@@ -49,12 +49,18 @@ function initMainOrder(): Record<number, string[]> {
   return { 1: ["about:1"], 2: ["projects:2"], 3: ["certs:3"], 4: ["contact:4"] };
 }
 
-function SectionContent({ sec }: { sec: Section }) {
+function SectionContent({
+  sec,
+  onProjectOpenChange,
+}: {
+  sec: Section;
+  onProjectOpenChange?: (open: boolean) => void;
+}) {
   switch (sec) {
     case "about":
       return <AboutWin />;
     case "projects":
-      return <ProjectsWin />;
+      return <ProjectsWin onOpenChange={onProjectOpenChange} />;
     case "certs":
       return <CertsWin />;
     case "contact":
@@ -70,6 +76,7 @@ export default function Desktop() {
   const [mainOrder, setMainOrder] = useState<Record<number, string[]>>(initMainOrder);
   const [focused, setFocused] = useState<string | null>("about:1");
   const [leftW, setLeftW] = useState<number>(320);
+  const [isProjectOpen, setIsProjectOpen] = useState<boolean>(false);
 
   useEffect(() => {
     applyAccent("orange");
@@ -179,6 +186,7 @@ export default function Desktop() {
       setFocused("about:1");
       setCurrentWs(1);
       setCurrentSec("about");
+      setIsProjectOpen(false);
     };
     const doc = document as Document & {
       startViewTransition?: (cb: () => void) => { finished: Promise<void> };
@@ -207,10 +215,11 @@ export default function Desktop() {
   const leftEmpty = leftOrder.length === 0;
   const mainEmpty = activeMain.length === 0;
 
-  let leftVisible = currentWs === 1;
+  // Left box (kitty + contents) is visible by default on desktop, but hides when a project is open in WS 2
+  let leftVisible = currentWs !== 2 || !isProjectOpen;
   let leftFull = false;
   let mainVisible = true;
-  if (currentWs === 1) {
+  if (leftVisible) {
     if (leftEmpty && mainEmpty) {
       leftVisible = false;
       mainVisible = false;
@@ -314,7 +323,10 @@ export default function Desktop() {
                   onMaximize={handleMaximize}
                   onLeftWidth={handleLeftWidth}
                 >
-                  <SectionContent sec={w.sec} />
+                  <SectionContent
+                    sec={w.sec}
+                    onProjectOpenChange={setIsProjectOpen}
+                  />
                 </Window>
               );
             })}
