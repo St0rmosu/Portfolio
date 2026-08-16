@@ -169,10 +169,14 @@ export default function ProjectDetailWin({ repo, onClose }: ProjectDetailWinProp
           <button
             onClick={onClose}
             className="pdetail-back-btn"
-            title="Torna alla lista progetti"
-            aria-label="Torna alla lista"
+            title="Torna alla griglia progetti (Esc)"
+            aria-label="Torna alla griglia progetti"
           >
-            ← Lista
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12" />
+              <polyline points="12 19 5 12 12 5" />
+            </svg>
+            <span>Torna alla griglia</span>
           </button>
           <span className="pdetail-name">{repo.name}</span>
           {repo.language && <span className="pdetail-badge">{repo.language}</span>}

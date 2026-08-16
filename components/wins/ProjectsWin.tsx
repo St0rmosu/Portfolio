@@ -116,6 +116,18 @@ export default function ProjectsWin({ onOpenChange }: ProjectsWinProps) {
   };
 
   useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && selectedRepo) {
+        e.preventDefault();
+        handleSelectRepo(null);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedRepo]);
+
+  useEffect(() => {
     let cancelled = false;
     fetchRepos()
       .then((r) => {
@@ -141,6 +153,18 @@ export default function ProjectsWin({ onOpenChange }: ProjectsWinProps) {
           {/* Left list column */}
           <div className="proj-list-col">
             <div className="proj-list-header">
+              <button
+                className="proj-back-grid-btn"
+                onClick={() => handleSelectRepo(null)}
+                title="Torna alla griglia completa dei progetti (Esc)"
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="19" y1="12" x2="5" y2="12" />
+                  <polyline points="12 19 5 12 12 5" />
+                </svg>
+                <span>Torna alla griglia</span>
+                <span className="proj-kbd-hint">ESC</span>
+              </button>
               <div className="stitle">
                 Projects/<span className="blink">_</span>
               </div>
