@@ -1151,9 +1151,13 @@ input[type="range"] {
 }
 
 .pdetail-header-top-row {
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: flex-start;
+}
+
+.cert-pure-viewer .pdetail-header-top-row {
+  display: flex;
 }
 
 .pdetail-header-main-row {
@@ -3194,6 +3198,10 @@ html[data-vt="back"]::view-transition-new(ws-content) {
     padding: 10px 12px;
     flex-wrap: wrap;
     gap: 8px;
+  }
+
+  .pdetail-header-top-row {
+    display: flex !important;
   }
 
   .pdetail-body {
