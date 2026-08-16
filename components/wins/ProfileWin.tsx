@@ -22,19 +22,6 @@ export default function ProfileWin() {
         <span className="pk">City:</span>
         <span className="pv">Putignano, Italy</span>
       </div>
-      <div className="prow">
-        <span className="pk">Email:</span>
-        <span className="pv">
-          <a
-            className="plink"
-            href="https://mail.google.com/mail/?view=cm&fs=1&to=rccialrnzo605@gmail.com"
-            target="_blank"
-            rel="noreferrer"
-          >
-            rccialrnzo605@gmail.com
-          </a>
-        </span>
-      </div>
       <div className="colorstrip">
         <div className="cs" style={{ background: "#1a1510" }} />
         <div className="cs" style={{ background: "#2a3820" }} />
