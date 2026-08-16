@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CERTS, type Cert } from "@/lib/content";
 import CertDetailWin from "@/components/wins/CertDetailWin";
 
@@ -12,8 +12,29 @@ function certSite(href: string) {
   }
 }
 
-export default function CertsWin() {
+interface CertsWinProps {
+  onOpenChange?: (open: boolean) => void;
+}
+
+export default function CertsWin({ onOpenChange }: CertsWinProps) {
   const [selectedCert, setSelectedCert] = useState<Cert | null>(null);
+
+  const handleSelectCert = (c: Cert | null) => {
+    setSelectedCert(c);
+    onOpenChange?.(c !== null);
+  };
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && selectedCert) {
+        e.preventDefault();
+        handleSelectCert(null);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCert]);
 
   return (
     <div className="p proj-root">
@@ -22,6 +43,18 @@ export default function CertsWin() {
           {/* Left list column */}
           <div className="proj-list-col">
             <div className="proj-list-header">
+              <button
+                className="proj-back-grid-btn"
+                onClick={() => handleSelectCert(null)}
+                title="Torna alla griglia completa delle certificazioni (Esc)"
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="19" y1="12" x2="5" y2="12" />
+                  <polyline points="12 19 5 12 12 5" />
+                </svg>
+                <span>Torna alla griglia</span>
+                <span className="proj-kbd-hint">ESC</span>
+              </button>
               <div className="stitle">
                 Certificazioni/<span className="blink">_</span>
               </div>
@@ -35,13 +68,13 @@ export default function CertsWin() {
                   <div
                     key={c.name}
                     className={"certcard compact" + (isSelected ? " active" : "")}
-                    onClick={() => setSelectedCert(c)}
+                    onClick={() => handleSelectCert(c)}
                     role="button"
                     tabIndex={0}
                     onKeyDown={(e) => {
                       if (e.key === "Enter" || e.key === " ") {
                         e.preventDefault();
-                        setSelectedCert(c);
+                        handleSelectCert(c);
                       }
                     }}
                   >
@@ -82,7 +115,7 @@ export default function CertsWin() {
 
           {/* Right detail column */}
           <div className="proj-detail-col">
-            <CertDetailWin cert={selectedCert} onClose={() => setSelectedCert(null)} />
+            <CertDetailWin cert={selectedCert} onClose={() => handleSelectCert(null)} />
           </div>
         </div>
       ) : (
@@ -97,13 +130,13 @@ export default function CertsWin() {
               <div
                 key={c.name}
                 className="certcard"
-                onClick={() => setSelectedCert(c)}
+                onClick={() => handleSelectCert(c)}
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
-                    setSelectedCert(c);
+                    handleSelectCert(c);
                   }
                 }}
               >

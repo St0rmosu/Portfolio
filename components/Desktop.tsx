@@ -52,9 +52,11 @@ function initMainOrder(): Record<number, string[]> {
 function SectionContent({
   sec,
   onProjectOpenChange,
+  onCertOpenChange,
 }: {
   sec: Section;
   onProjectOpenChange?: (open: boolean) => void;
+  onCertOpenChange?: (open: boolean) => void;
 }) {
   switch (sec) {
     case "about":
@@ -62,7 +64,7 @@ function SectionContent({
     case "projects":
       return <ProjectsWin onOpenChange={onProjectOpenChange} />;
     case "certs":
-      return <CertsWin />;
+      return <CertsWin onOpenChange={onCertOpenChange} />;
     case "contact":
       return <ContactWin />;
   }
@@ -77,6 +79,7 @@ export default function Desktop() {
   const [focused, setFocused] = useState<string | null>("about:1");
   const [leftW, setLeftW] = useState<number>(320);
   const [isProjectOpen, setIsProjectOpen] = useState<boolean>(false);
+  const [isCertOpen, setIsCertOpen] = useState<boolean>(false);
 
   useEffect(() => {
     applyAccent("orange");
@@ -187,6 +190,7 @@ export default function Desktop() {
       setCurrentWs(1);
       setCurrentSec("about");
       setIsProjectOpen(false);
+      setIsCertOpen(false);
     };
     const doc = document as Document & {
       startViewTransition?: (cb: () => void) => { finished: Promise<void> };
@@ -215,8 +219,9 @@ export default function Desktop() {
   const leftEmpty = leftOrder.length === 0;
   const mainEmpty = activeMain.length === 0;
 
-  // Left box (kitty + contents) is visible by default on desktop, but hides when a project is open in WS 2
-  let leftVisible = currentWs !== 2 || !isProjectOpen;
+  // Left box (kitty + contents) is visible on all workspaces, but hides when a project detail (ws 2) or cert detail (ws 3) is open
+  const isDetailOpen = (currentWs === 2 && isProjectOpen) || (currentWs === 3 && isCertOpen);
+  let leftVisible = !isDetailOpen;
   let leftFull = false;
   let mainVisible = true;
   if (leftVisible) {
@@ -326,6 +331,7 @@ export default function Desktop() {
                   <SectionContent
                     sec={w.sec}
                     onProjectOpenChange={setIsProjectOpen}
+                    onCertOpenChange={setIsCertOpen}
                   />
                 </Window>
               );
