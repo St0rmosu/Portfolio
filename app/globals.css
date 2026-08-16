@@ -1567,6 +1567,9 @@ input[type="range"] {
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  max-width: 640px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .pdetail-video-header {
@@ -1607,23 +1610,26 @@ input[type="range"] {
 
 .pdetail-video-wrapper {
   width: 100%;
-  background: #000000;
+  background: #FFF5E1;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
+  border-radius: 0;
   overflow: hidden;
-  margin: 8px 0;
+  margin: 0;
+  aspect-ratio: 16 / 9;
 }
 
 .pdetail-video-player,
 .md-content video {
   width: 100%;
+  height: 100%;
   max-width: 100%;
-  height: auto;
-  max-height: 480px;
+  max-height: 100%;
+  aspect-ratio: 16 / 9;
   display: block;
-  background: #000000;
+  background: #FFF5E1;
+  object-fit: contain;
   outline: none;
 }
 
