@@ -48,16 +48,22 @@ export default function MarkdownViewer({ markdown, repoName }: MarkdownViewerPro
     // 4. Configure marked renderer
     const renderer = new marked.Renderer();
 
-    // Custom link renderer: don't underline badge links
-    renderer.link = ({ href, title, text }) => {
+    // Custom link renderer: parse inner tokens so [![Badge](url)](link) renders <img /> rather than literal string
+    renderer.link = function ({ href, title, text, tokens }) {
       const titleAttr = title ? ` title="${title}"` : "";
-      const isBadgeLink = text.includes("md-badge-img") || href.includes("shields.io") || href.includes("badge");
+      const rawInner = tokens ? (this.parser.parseInline(tokens) as string) : (marked.parseInline(text) as string);
+      const innerHtml = typeof rawInner === "string" ? rawInner : text;
+      const isBadgeLink =
+        innerHtml.includes("<img") ||
+        innerHtml.includes("md-badge-img") ||
+        href.includes("shields.io") ||
+        href.includes("badge");
       const cls = isBadgeLink ? "md-badge-link" : "md-link";
-      return `<a href="${href}" target="_blank" rel="noreferrer"${titleAttr} class="${cls}">${text}</a>`;
+      return `<a href="${href}" target="_blank" rel="noreferrer"${titleAttr} class="${cls}">${innerHtml}</a>`;
     };
 
     // Custom image renderer: handle badges, binary files and standard images
-    renderer.image = ({ href, title, text }) => {
+    renderer.image = function ({ href, title, text }) {
       if (!href) return "";
 
       const isBinaryFile = /\.(jar|zip|tar\.gz|tgz|rar|7z|bin|exe|pdf)(\?|$)/i.test(href);
@@ -79,12 +85,12 @@ export default function MarkdownViewer({ markdown, repoName }: MarkdownViewerPro
     };
 
     // Custom table renderer with responsive wrapper
-    renderer.table = (token) => {
+    renderer.table = function (token) {
       const header = token.header
         .map(
           (cell) =>
             `<th class="md-th" style="text-align: ${cell.align || "left"}">${
-              cell.tokens ? marked.parseInline(cell.text) : cell.text
+              cell.tokens ? (this.parser.parseInline(cell.tokens) as string) : cell.text
             }</th>`
         )
         .join("");
@@ -95,7 +101,7 @@ export default function MarkdownViewer({ markdown, repoName }: MarkdownViewerPro
             .map(
               (cell) =>
                 `<td class="md-td" style="text-align: ${cell.align || "left"}">${
-                  cell.tokens ? marked.parseInline(cell.text) : cell.text
+                  cell.tokens ? (this.parser.parseInline(cell.tokens) as string) : cell.text
                 }</td>`
             )
             .join("");
@@ -107,7 +113,7 @@ export default function MarkdownViewer({ markdown, repoName }: MarkdownViewerPro
     };
 
     // Custom code block renderer with styling
-    renderer.code = ({ text, lang }) => {
+    renderer.code = function ({ text, lang }) {
       const language = lang || "code";
       const escaped = text
         .replace(/&/g, "&amp;")
