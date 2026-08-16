@@ -2681,7 +2681,7 @@ html[data-vt="back"]::view-transition-new(ws-content) {
     height: 38px !important;
     min-width: 38px !important;
     min-height: 38px !important;
-    border-radius: 9px !important;
+    border-radius: 50% !important;
     background: var(--bg3) !important;
     border: 1px solid var(--border) !important;
     font-size: 0.66rem !important;
@@ -2809,7 +2809,7 @@ html[data-vt="back"]::view-transition-new(ws-content) {
     max-height: 38px !important;
     padding: 0 !important;
     gap: 0px !important;
-    border-radius: 9px !important;
+    border-radius: 50% !important;
     background: var(--bg3) !important;
     border: 1px solid var(--border) !important;
     justify-content: center !important;
