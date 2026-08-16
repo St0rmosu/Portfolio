@@ -325,6 +325,34 @@ export default function ProjectDetailWin({ repo, onClose }: ProjectDetailWinProp
           </div>
         )}
 
+        {/* Interactive Video Showcase Player */}
+        {keypoints.videoUrl && (
+          <div className="pdetail-video-card">
+            <div className="pdetail-video-header">
+              <div className="pdetail-video-title-group">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="pdetail-video-icon">
+                  <polygon points="23 7 16 12 23 17 23 7" />
+                  <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+                </svg>
+                <span className="pdetail-video-title">Video Demo / Render (1080p @ 120fps)</span>
+              </div>
+              <span className="pdetail-video-badge">MP4 Video</span>
+            </div>
+            <div className="pdetail-video-wrapper">
+              <video
+                src={keypoints.videoUrl}
+                controls
+                playsInline
+                preload="metadata"
+                className="pdetail-video-player"
+              >
+                <source src={keypoints.videoUrl} type="video/mp4" />
+                Il tuo browser non supporta la riproduzione video HTML5.
+              </video>
+            </div>
+          </div>
+        )}
+
         {/* README Section directly below summary */}
         <div className="pdetail-readme-section">
           <div className="pdetail-readme-header">

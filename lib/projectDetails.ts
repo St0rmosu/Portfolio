@@ -12,6 +12,7 @@ export interface ProjectKeypoints {
   keypoints: (string | KeypointItem)[];
   metrics?: { label: string; value: string }[];
   liveDemoUrl?: string;
+  videoUrl?: string;
 }
 
 export const PROJECT_KEYPOINTS: Record<string, ProjectKeypoints> = {
@@ -147,6 +148,7 @@ export const PROJECT_KEYPOINTS: Record<string, ProjectKeypoints> = {
     description:
       "Script di rendering video in Python che sfrutta il motore matematico Manim (Community Edition) per generare in modo procedurale la sigla e l'animazione grafica del logo della web radio 'Dell'Erba Voice'.",
     stack: ["Python 3.11+", "Manim Community Engine", "FFmpeg", "LaTeX / Vector Math"],
+    videoUrl: "/videos/LogoRadio.mp4",
     keypoints: [
       {
         icon: "math",

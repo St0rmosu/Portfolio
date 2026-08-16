@@ -34,13 +34,27 @@ export default function MarkdownViewer({ markdown, repoName }: MarkdownViewerPro
       "$1 "
     );
 
-    // 3. Fix relative images/assets if repoName is provided
+    // 3. Fix relative images/assets and video tags
     if (repoName) {
       processed = processed.replace(
         /!\[(.*?)\]\(((?!https?:\/\/|data:|\/\/)[^)]+)\)/g,
         (_, alt, path) => {
           const cleanPath = path.replace(/^\.?\//, "");
           return `![${alt}](https://raw.githubusercontent.com/St0rmosu/${repoName}/main/${cleanPath})`;
+        }
+      );
+
+      // Fix HTML <video src="..."> and <source src="..."> tags with local/raw fallback
+      processed = processed.replace(
+        /<video\b([^>]*?)\bsrc=["']([^"']+)["']([^>]*?)>([\s\S]*?)<\/video>/gi,
+        (_, before, src, after, inner) => {
+          const isLocalVideo = src.includes("LogoRadio.mp4");
+          const videoSrc = isLocalVideo
+            ? "/videos/LogoRadio.mp4"
+            : src.startsWith("http")
+            ? src
+            : `https://raw.githubusercontent.com/St0rmosu/${repoName}/main/${src.replace(/^\.?\//, "")}`;
+          return `<div class="pdetail-video-wrapper"><video ${before} src="${videoSrc}" ${after} controls playsinline preload="metadata" class="pdetail-video-player"><source src="${videoSrc}" type="video/mp4" />${inner}</video></div>`;
         }
       );
     }
