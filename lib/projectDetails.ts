@@ -11,6 +11,7 @@ export interface ProjectKeypoints {
   stack: string[];
   keypoints: (string | KeypointItem)[];
   metrics?: { label: string; value: string }[];
+  liveDemoUrl?: string;
 }
 
 export const PROJECT_KEYPOINTS: Record<string, ProjectKeypoints> = {
@@ -83,6 +84,7 @@ export const PROJECT_KEYPOINTS: Record<string, ProjectKeypoints> = {
     description:
       "Web application leggera e responsiva che funge da hub centrale per link social, curriculum vitae scaricabile, portfolio e collegamenti di contatto rapido.",
     stack: ["HTML5", "CSS3 / Modern Glassmorphism", "Vanilla JavaScript", "FontAwesome"],
+    liveDemoUrl: "https://st0rmosu.github.io/Insta-card/",
     keypoints: [
       {
         icon: "mobile",
@@ -176,6 +178,7 @@ export const PROJECT_KEYPOINTS: Record<string, ProjectKeypoints> = {
     description:
       "Applicazione web per la tecnica del Pomodoro con timer personalizzabile, indicatore circolare di progresso, campane audio rilassanti e storico delle sessioni di studio/lavoro salvate in locale.",
     stack: ["HTML5 Canvas", "Web Audio API", "Modern CSS3", "Vanilla JavaScript (ES6+)"],
+    liveDemoUrl: "https://st0rmosu.github.io/CustomPomodoroTimer/",
     keypoints: [
       {
         icon: "clock",
