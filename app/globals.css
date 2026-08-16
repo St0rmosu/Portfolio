@@ -1142,13 +1142,26 @@ input[type="range"] {
 
 .pdetail-header {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
   padding: 10px 14px;
   background: var(--bg3);
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
+  gap: 8px;
+}
+
+.pdetail-header-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.pdetail-header-main-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: 10px;
+  width: 100%;
 }
 
 .pdetail-header-left {
