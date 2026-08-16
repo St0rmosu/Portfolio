@@ -1505,17 +1505,37 @@ input[type="range"] {
   color: var(--text);
 }
 
-.md-badge-link {
-  display: inline-block;
-  margin-right: 6px;
-  margin-bottom: 4px;
-  vertical-align: middle;
+.md-badge-link,
+a.md-badge-link {
+  display: inline-flex !important;
+  align-items: center;
+  margin-right: 6px !important;
+  margin-bottom: 6px !important;
+  vertical-align: middle !important;
+  text-decoration: none !important;
+  border: none !important;
 }
 
 .md-badge-img {
-  height: 20px;
-  border-radius: 3px;
+  height: 24px !important;
+  max-height: 24px !important;
+  width: auto !important;
+  border-radius: 4px;
   display: inline-block;
+  vertical-align: middle;
+  border: none;
+}
+
+.md-content p:has(.md-badge-img) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 6px 0 10px 0;
+}
+
+.md-content p:has(.md-badge-img) br {
+  display: none !important;
 }
 
 .md-img {

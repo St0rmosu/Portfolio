@@ -24,7 +24,17 @@ export default function MarkdownViewer({ markdown, repoName }: MarkdownViewerPro
       }
     );
 
-    // 2. Fix relative images/assets if repoName is provided
+    // 2. Collapse consecutive badge lines into a single row (avoiding <br> between badges)
+    processed = processed.replace(
+      /(!\[[^\]]*\]\([^)]*(?:shields\.io|badge)[^)]*\))\s*\n(?=\s*(!\[|\[!\[))/gi,
+      "$1 "
+    );
+    processed = processed.replace(
+      /(\[!\[[^\]]*\]\([^)]*(?:shields\.io|badge)[^)]*\)\]\([^)]+\))\s*\n(?=\s*(\[!\[|!\[))/gi,
+      "$1 "
+    );
+
+    // 3. Fix relative images/assets if repoName is provided
     if (repoName) {
       processed = processed.replace(
         /!\[(.*?)\]\(((?!https?:\/\/|data:|\/\/)[^)]+)\)/g,
@@ -35,23 +45,25 @@ export default function MarkdownViewer({ markdown, repoName }: MarkdownViewerPro
       );
     }
 
-    // 3. Configure marked renderer
+    // 4. Configure marked renderer
     const renderer = new marked.Renderer();
 
-    // Custom link renderer with target="_blank"
+    // Custom link renderer: don't underline badge links
     renderer.link = ({ href, title, text }) => {
       const titleAttr = title ? ` title="${title}"` : "";
-      return `<a href="${href}" target="_blank" rel="noreferrer"${titleAttr} class="md-link">${text}</a>`;
+      const isBadgeLink = text.includes("md-badge-img") || href.includes("shields.io") || href.includes("badge");
+      const cls = isBadgeLink ? "md-badge-link" : "md-link";
+      return `<a href="${href}" target="_blank" rel="noreferrer"${titleAttr} class="${cls}">${text}</a>`;
     };
 
-    // Custom image renderer: handle non-image files (.jar, .zip, etc.) and badges
+    // Custom image renderer: handle badges, binary files and standard images
     renderer.image = ({ href, title, text }) => {
       if (!href) return "";
 
       const isBinaryFile = /\.(jar|zip|tar\.gz|tgz|rar|7z|bin|exe|pdf)(\?|$)/i.test(href);
       if (isBinaryFile) {
         const filename = text || href.split("/").pop()?.split("?")[0] || "Download asset";
-        return `<div class="md-file-download-box"><span class="md-file-icon">📦</span> <span class="md-file-name">${filename}</span> <a href="${href}" target="_blank" rel="noreferrer" class="pdetail-stack-chip">Download Release ↗</a></div>`;
+        return `<div class="md-file-download-box"><span class="md-file-icon">📦</span> <span class="md-file-name">${filename}</span> <a href="${href}" target="_blank" rel="noreferrer" class="pdetail-stack-chip">Download ↗</a></div>`;
       }
 
       const isBadge =
