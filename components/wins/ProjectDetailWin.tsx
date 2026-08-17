@@ -235,7 +235,78 @@ export default function ProjectDetailWin({ repo, onClose }: ProjectDetailWinProp
 
       {/* Scrollable detail body */}
       <div className="pdetail-body">
-        {/* Quick Summary / Keypoints Block directly on top */}
+        {/* Interactive Live Web Demo Browser Frame (First if available) */}
+        {liveDemoUrl && (
+          <div className="pdetail-live-demo-card">
+            <div className="pdetail-browser-bar">
+              <div className="pdetail-browser-dots">
+                <span className="pdetail-bdot" />
+                <span className="pdetail-bdot" />
+                <span className="pdetail-bdot" />
+              </div>
+              <div className="pdetail-browser-url">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+                <span>{liveDemoUrl}</span>
+              </div>
+              <a
+                href={liveDemoUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="pdetail-browser-popout"
+                title="Apri demo a schermo intero in nuova scheda"
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+                <span>Nuova Scheda ↗</span>
+              </a>
+            </div>
+            <div className="pdetail-iframe-wrapper">
+              <iframe
+                src={liveDemoUrl}
+                title={`${repo.name} Live Demo`}
+                className="pdetail-live-iframe"
+                loading="lazy"
+                sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-downloads"
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Interactive Video Showcase Player (First if available) */}
+        {videoUrl && (
+          <div className="pdetail-video-card">
+            <div className="pdetail-video-header">
+              <div className="pdetail-video-title-group">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="pdetail-video-icon">
+                  <polygon points="23 7 16 12 23 17 23 7" />
+                  <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+                </svg>
+                <span className="pdetail-video-title">Video Demo / Render (1080p @ 120fps)</span>
+              </div>
+              <span className="pdetail-video-badge">MP4 Video</span>
+            </div>
+            <div className="pdetail-video-wrapper">
+              <video
+                src={videoUrl}
+                controls
+                playsInline
+                preload="metadata"
+                className="pdetail-video-player"
+              >
+                <source src={videoUrl} type="video/mp4" />
+                Il tuo browser non supporta la riproduzione video HTML5.
+              </video>
+            </div>
+          </div>
+        )}
+
+        {/* Quick Summary / Keypoints Block */}
         <div className="pdetail-summary-card">
           <div className="pdetail-summary-header">
             <div className="pdetail-summary-icon-box">
@@ -294,77 +365,6 @@ export default function ProjectDetailWin({ repo, onClose }: ProjectDetailWinProp
             </div>
           )}
         </div>
-
-        {/* Interactive Live Web Demo Browser Frame */}
-        {liveDemoUrl && (
-          <div className="pdetail-live-demo-card">
-            <div className="pdetail-browser-bar">
-              <div className="pdetail-browser-dots">
-                <span className="pdetail-bdot" />
-                <span className="pdetail-bdot" />
-                <span className="pdetail-bdot" />
-              </div>
-              <div className="pdetail-browser-url">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                </svg>
-                <span>{liveDemoUrl}</span>
-              </div>
-              <a
-                href={liveDemoUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="pdetail-browser-popout"
-                title="Apri demo a schermo intero in nuova scheda"
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                  <polyline points="15 3 21 3 21 9" />
-                  <line x1="10" y1="14" x2="21" y2="3" />
-                </svg>
-                <span>Nuova Scheda ↗</span>
-              </a>
-            </div>
-            <div className="pdetail-iframe-wrapper">
-              <iframe
-                src={liveDemoUrl}
-                title={`${repo.name} Live Demo`}
-                className="pdetail-live-iframe"
-                loading="lazy"
-                sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-downloads"
-              />
-            </div>
-          </div>
-        )}
-
-        {/* Interactive Video Showcase Player */}
-        {videoUrl && (
-          <div className="pdetail-video-card">
-            <div className="pdetail-video-header">
-              <div className="pdetail-video-title-group">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="pdetail-video-icon">
-                  <polygon points="23 7 16 12 23 17 23 7" />
-                  <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
-                </svg>
-                <span className="pdetail-video-title">Video Demo / Render (1080p @ 120fps)</span>
-              </div>
-              <span className="pdetail-video-badge">MP4 Video</span>
-            </div>
-            <div className="pdetail-video-wrapper">
-              <video
-                src={videoUrl}
-                controls
-                playsInline
-                preload="metadata"
-                className="pdetail-video-player"
-              >
-                <source src={videoUrl} type="video/mp4" />
-                Il tuo browser non supporta la riproduzione video HTML5.
-              </video>
-            </div>
-          </div>
-        )}
 
         {/* README Section directly below summary */}
         <div className="pdetail-readme-section">
