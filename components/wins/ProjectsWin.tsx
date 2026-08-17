@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fetchRepos, type Repo } from "@/lib/github";
+import { fetchRepos, FALLBACK_REPOS, type Repo } from "@/lib/github";
 import ProjectDetailWin from "@/components/wins/ProjectDetailWin";
 
 const LANG_BADGE: Record<string, { cls?: string; style?: React.CSSProperties; label: string }> = {
@@ -106,7 +106,7 @@ interface ProjectsWinProps {
 }
 
 export default function ProjectsWin({ onOpenChange }: ProjectsWinProps) {
-  const [repos, setRepos] = useState<Repo[] | null>(null);
+  const [repos, setRepos] = useState<Repo[]>(FALLBACK_REPOS);
   const [error, setError] = useState(false);
   const [selectedRepo, setSelectedRepo] = useState<Repo | null>(null);
 
