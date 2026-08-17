@@ -117,6 +117,7 @@ export const PROJECT_KEYPOINTS: Record<string, ProjectKeypoints> = {
     description:
       "Piattaforma e-commerce completa e business plan per startup circolare focalizzata sull'acquisto, restauro e rivendita di arredi vintage e mobili rigenerati per abbattere l'impronta di carbonio.",
     stack: ["Next.js (App Router)", "React 19", "TypeScript", "Tailwind CSS", "Stripe API"],
+    liveDemoUrl: "https://sitogpo.vercel.app",
     keypoints: [
       {
         icon: "eco",
