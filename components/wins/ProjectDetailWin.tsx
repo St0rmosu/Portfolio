@@ -141,6 +141,19 @@ export default function ProjectDetailWin({ repo, onClose }: ProjectDetailWinProp
   const [loading, setLoading] = useState<boolean>(true);
 
   const keypoints: ProjectKeypoints = getProjectKeypoints(repo.name);
+  const liveDemoUrl =
+    keypoints.liveDemoUrl ||
+    (repo.name.toLowerCase().includes("insta-card")
+      ? "https://st0rmosu.github.io/Insta-card/"
+      : repo.name.toLowerCase().includes("pomodoro")
+      ? "https://st0rmosu.github.io/CustomPomodoroTimer/"
+      : undefined);
+
+  const videoUrl =
+    keypoints.videoUrl ||
+    (repo.name.toLowerCase().includes("dellerba")
+      ? "/videos/LogoRadio.mp4"
+      : undefined);
 
   useEffect(() => {
     let cancelled = false;
@@ -187,9 +200,9 @@ export default function ProjectDetailWin({ repo, onClose }: ProjectDetailWinProp
           </div>
 
           <div className="pdetail-header-right">
-            {keypoints.liveDemoUrl && (
+            {liveDemoUrl && (
               <a
-                href={keypoints.liveDemoUrl}
+                href={liveDemoUrl}
                 target="_blank"
                 rel="noreferrer"
                 className="pdetail-live-header-btn"
@@ -283,7 +296,7 @@ export default function ProjectDetailWin({ repo, onClose }: ProjectDetailWinProp
         </div>
 
         {/* Interactive Live Web Demo Browser Frame */}
-        {keypoints.liveDemoUrl && (
+        {liveDemoUrl && (
           <div className="pdetail-live-demo-card">
             <div className="pdetail-browser-bar">
               <div className="pdetail-browser-dots">
@@ -296,10 +309,10 @@ export default function ProjectDetailWin({ repo, onClose }: ProjectDetailWinProp
                   <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                   <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                 </svg>
-                <span>{keypoints.liveDemoUrl}</span>
+                <span>{liveDemoUrl}</span>
               </div>
               <a
-                href={keypoints.liveDemoUrl}
+                href={liveDemoUrl}
                 target="_blank"
                 rel="noreferrer"
                 className="pdetail-browser-popout"
@@ -315,7 +328,7 @@ export default function ProjectDetailWin({ repo, onClose }: ProjectDetailWinProp
             </div>
             <div className="pdetail-iframe-wrapper">
               <iframe
-                src={keypoints.liveDemoUrl}
+                src={liveDemoUrl}
                 title={`${repo.name} Live Demo`}
                 className="pdetail-live-iframe"
                 loading="lazy"
@@ -326,7 +339,7 @@ export default function ProjectDetailWin({ repo, onClose }: ProjectDetailWinProp
         )}
 
         {/* Interactive Video Showcase Player */}
-        {keypoints.videoUrl && (
+        {videoUrl && (
           <div className="pdetail-video-card">
             <div className="pdetail-video-header">
               <div className="pdetail-video-title-group">
@@ -340,13 +353,13 @@ export default function ProjectDetailWin({ repo, onClose }: ProjectDetailWinProp
             </div>
             <div className="pdetail-video-wrapper">
               <video
-                src={keypoints.videoUrl}
+                src={videoUrl}
                 controls
                 playsInline
                 preload="metadata"
                 className="pdetail-video-player"
               >
-                <source src={keypoints.videoUrl} type="video/mp4" />
+                <source src={videoUrl} type="video/mp4" />
                 Il tuo browser non supporta la riproduzione video HTML5.
               </video>
             </div>
