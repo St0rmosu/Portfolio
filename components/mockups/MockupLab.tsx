@@ -1,8 +1,10 @@
 "use client";
-/* Prototype: three complete multi-page directions, switchable with ?variant=D|E|F.
+/* Prototype: three complete multi-page directions, switchable with ?variant=G|H|I.
    The design decision is intentionally pending the user's comparison. */
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import NextImage from "next/image";
+import useAwwwardsMotion from "./useAwwwardsMotion";
+import { useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import {
   credentials,
@@ -10,11 +12,10 @@ import {
   pages,
   projects,
   variants,
-  toolkit,
   type Project,
 } from "./data";
 
-type Variant = "D" | "E" | "F";
+type Variant = "G" | "H" | "I";
 type Props = {
   variant: Variant;
   page: string;
@@ -32,57 +33,17 @@ function Icon({
   name?: string;
   className?: string;
 }) {
-  const paths: Record<string, React.ReactNode> = {
-    grid: (
-      <>
-        <rect x="3" y="3" width="7" height="7" rx="1" />
-        <rect x="14" y="3" width="7" height="7" rx="1" />
-        <rect x="3" y="14" width="7" height="7" rx="1" />
-        <rect x="14" y="14" width="7" height="7" rx="1" />
-      </>
-    ),
-    arrow: <path d="M5 12h14m-6-6 6 6-6 6" />,
-    external: <path d="M7 17 17 7M7 7h10v10" />,
-    profile: (
-      <>
-        <circle cx="12" cy="8" r="3.3" />
-        <path d="M5 20v-2a7 7 0 0 1 14 0v2" />
-      </>
-    ),
-    code: (
-      <>
-        <path d="m7 7-5 5 5 5m10-10 5 5-5 5m-3-13-4 16" />
-      </>
-    ),
-    award: (
-      <>
-        <circle cx="12" cy="8" r="5" />
-        <path d="m8 12-1 9 5-3 5 3-1-9" />
-      </>
-    ),
-    mail: (
-      <>
-        <rect x="3" y="5" width="18" height="14" rx="3" />
-        <path d="m3 7 9 6 9-6" />
-      </>
-    ),
-    folder: (
-      <path d="M3 8V5a2 2 0 0 1 2-2h5l3 4h6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8Z" />
-    ),
-  };
+  // Solar icons served locally from Iconify; original SVGs in public/mockups/solar.
+  // eslint-disable-next-line @next/next/no-img-element
   return (
-    <svg
+    <img
+      src={`/mockups/solar/${name}.svg`}
       className={`m-icon ${className}`}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      width="24"
+      height="24"
+      alt=""
       aria-hidden="true"
-    >
-      {paths[name] || paths.arrow}
-    </svg>
+    />
   );
 }
 function Nav({ variant, page }: { variant: Variant; page: string }) {
@@ -127,7 +88,8 @@ function ProjectMedia({
       {project.image ? (
         <>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <NextImage
+            sizes="(max-width: 700px) 90vw, 800px"
             className="m-product-screen"
             src={project.cover}
             alt={`Screenshot di ${project.name}`}
@@ -137,12 +99,13 @@ function ProjectMedia({
           {project.slug === "dynamic-island" && (
             <>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <NextImage
+                sizes="(max-width: 700px) 35vw, 350px"
                 className="m-control-screen"
                 src={project.image}
                 alt="Il centro di controllo di Dynamic Island"
-                width="480"
-                height="560"
+                width={480}
+                height={560}
               />
             </>
           )}
@@ -218,7 +181,7 @@ function Detail({ project, variant }: { project: Project; variant: Variant }) {
       <div className="m-detail-heading">
         <div>
           <p className="m-page-kicker">{project.category}</p>
-          <h1>{project.name}</h1>
+          <MotionTitle lines={[project.name]} />
         </div>
         <a
           className="m-action"
@@ -254,549 +217,456 @@ function Detail({ project, variant }: { project: Project; variant: Variant }) {
   );
 }
 
-function TechMark({ icon }: { icon: string }) {
-  // Logos by Simple Icons, presented beside the actual technology name.
-  // eslint-disable-next-line @next/next/no-img-element
-  return (
-    <img
-      className="tech-mark"
-      src={`/mockups/icons/${icon}.svg`}
-      width="32"
-      height="32"
-      alt=""
-    />
-  );
-}
-function Toolset({ group }: { group?: string }) {
-  return (
-    <div className="toolset">
-      {toolkit
-        .filter((t) => !group || t.group === group)
-        .map((tool) => (
-          <a key={tool.name} href={tool.href} target="_blank" rel="noreferrer">
-            <TechMark icon={tool.icon} />
-            <span>{tool.name}</span>
-          </a>
-        ))}
-    </div>
-  );
-}
-function PageHeading({
-  title,
-  text,
-  label,
+function MotionTitle({
+  lines,
+  as = "h1",
+  className = "",
 }: {
-  title: string;
-  text: string;
-  label: string;
+  lines: string[];
+  as?: "h1" | "h2";
+  className?: string;
 }) {
+  const Tag = as;
   return (
-    <div className="new-page-heading">
-      <span>{label}</span>
-      <h1>{title}</h1>
-      <p>{text}</p>
-    </div>
+    <Tag className={`aw-title ${className}`} aria-label={lines.join(" ")}>
+      {lines.map((line, index) => (
+        <span key={index} className="aw-title-line" aria-hidden="true">
+          {line.split(" ").map((word, i) => (
+            <span className="aw-title-word" key={i}>
+              {word}
+              {i < line.split(" ").length - 1 ? "\u00a0" : ""}
+            </span>
+          ))}
+        </span>
+      ))}
+    </Tag>
   );
 }
-function Meridian({ page, project }: { page: string; project?: Project }) {
+function HeroArt({ kind }: { kind: "kernel" | "trama" | "groove" }) {
+  const alts = {
+    kernel:
+      "Scultura concettuale di un modulo in alluminio e grafite, aperto sul suo nucleo",
+    trama:
+      "Studio concettuale di un nastro tessile che passa dal lino a fibre di rame",
+    groove:
+      "Studio concettuale di un vinile nero attraversato da luce blu radente",
+  };
   return (
-    <div className="meridian">
-      <header className="d-header">
-        <Link className="d-brand" href={href("profilo", "D")}>
-          <span>lr/</span>
-          <b>Lorenzo Recchia</b>
-        </Link>
-        <Nav variant="D" page={page} />
+    <figure className={`aw-hero-media art-${kind}`}>
+      <div className="aw-art-backup" aria-hidden="true">
+        Software.
+        <br />
+        Sistemi.
+        <br />
+        Curiosità.
+      </div>
+      <div className="aw-pointer-layer">
+        <div className="aw-drift-layer">
+          <NextImage
+            src={`/mockups/art/${kind}.png`}
+            alt={alts[kind]}
+            width={1586}
+            height={992}
+            sizes="(max-width: 700px) 100vw, (max-width: 1300px) 90vw, 1300px"
+            preload
+            onError={(event) => {
+              event.currentTarget.style.visibility = "hidden";
+              event.currentTarget
+                .closest("figure")
+                ?.classList.add("has-art-error");
+            }}
+          />
+        </div>
+      </div>
+      <figcaption>
+        Composizione concettuale /{" "}
+        {kind === "kernel" ? "Kernel" : kind === "trama" ? "Trama" : "Groove"}
+      </figcaption>
+    </figure>
+  );
+}
+function AwardHeader({ variant, page }: { variant: Variant; page: string }) {
+  return (
+    <header className="aw-header">
+      <Link className="aw-brand" href={href("profilo", variant)}>
+        Lorenzo Recchia<span>Software developer</span>
+      </Link>
+      <Nav variant={variant} page={page} />
+      <a className="aw-header-contact" href="mailto:rccialrnzo605@gmail.com">
+        Scrivimi <Icon name="external" />
+      </a>
+    </header>
+  );
+}
+function AwardFooter() {
+  return (
+    <footer className="aw-footer">
+      <Link className="aw-footer-cta" href="mailto:rccialrnzo605@gmail.com">
+        Una nuova conversazione.
+        <Icon name="external" />
+      </Link>
+      <div>
+        <span>Lorenzo Recchia / St0rmosu</span>
+        <a href="https://github.com/St0rmosu" target="_blank" rel="noreferrer">
+          Il codice su GitHub <Icon name="external" />
+        </a>
+        <span>Putignano, Italia</span>
+      </div>
+      <p className="aw-credits">
+        Icone{" "}
         <a
-          className="d-github"
-          href="https://github.com/St0rmosu"
+          href="https://icon-sets.iconify.design/solar/"
           target="_blank"
           rel="noreferrer"
         >
-          St0rmosu <Icon name="external" />
+          Solar
+        </a>{" "}
+        di 480 Design /{" "}
+        <a
+          href="https://creativecommons.org/licenses/by/4.0/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          CC BY 4.0
         </a>
-      </header>
-      <main id="mockup-content" className="d-main">
-        {project ? (
-          <Detail project={project} variant="D" />
-        ) : page === "profilo" ? (
-          <>
-            <div className="d-profile-grid">
-              <section className="d-identity">
-                <div className="d-intro-line">
-                  <Portrait />
-                  <span>
-                    Software developer
-                    <br />
-                    <small>Putignano, Italia</small>
-                  </span>
-                </div>
-                <h1>
-                  Lorenzo
-                  <br />
-                  Recchia<span>.</span>
-                </h1>
-                <p className="d-lead">
-                  Dal browser al desktop.
-                  <br />
-                  Mi piace capire come funzionano le cose.
-                </p>
-                <p>
-                  Sviluppo applicazioni web e desktop, esploro l’AI locale e
-                  gestisco un homelab Proxmox. Il punto di partenza è quasi
-                  sempre una domanda.
-                </p>
-                <div className="d-intro-links">
-                  <Link className="m-action" href={href("progetti", "D")}>
-                    Esplora i progetti <Icon />
-                  </Link>
-                  <Link href={href("contatti", "D")}>Facciamo due parole</Link>
-                </div>
-                <span className="d-availability">
-                  <i /> Aperto a nuove collaborazioni
-                </span>
-              </section>
-              <section className="d-tools">
-                <div className="d-tools-heading">
-                  <span>Con cosa lavoro</span>
-                  <span>Web / software / sistemi</span>
-                </div>
-                {["Web", "Software", "Sistemi"].map((group) => (
-                  <div className="d-tool-group" key={group}>
-                    <h2>{group}</h2>
-                    <Toolset group={group} />
-                  </div>
-                ))}
-                <p>Strumenti diversi. La stessa curiosità.</p>
-              </section>
-            </div>
-            <div className="d-lower-grid">
-              <Link
-                href={href("progetti", "D", "dynamic-island")}
-                className="d-feature"
-              >
-                <ProjectMedia project={projects[0]} />
-                <div>
-                  <span>Dal mio laboratorio</span>
-                  <h2>Dynamic Island</h2>
-                  <p>Una shell modulare per Hyprland.</p>
-                  <span className="d-feature-link">
-                    Apri il progetto <Icon name="external" />
-                  </span>
-                </div>
-              </Link>
-              <section className="d-brief">
-                <span>Un po’ di contesto</span>
-                <p>
-                  Diplomato in Informatica e Telecomunicazioni. Durante il PCTO
-                  in Galileo Italia ho lavorato con Java e modelli AI locali.
-                </p>
-                <Link href={href("certificazioni", "D")}>
-                  Il mio percorso <Icon name="external" />
-                </Link>
-              </section>
-            </div>
-          </>
-        ) : page === "progetti" ? (
-          <>
-            <PageHeading
-              label="Il codice, in pratica"
-              title="Progetti personali."
-              text="Tre ambiti diversi: Linux, intelligenza artificiale e sviluppo web."
-            />
-            <div className="d-projects">
-              {projects.map((p) => (
-                <Link key={p.slug} href={href("progetti", "D", p.slug)}>
-                  <ProjectMedia project={p} />
-                  <div>
-                    <span>{p.category}</span>
-                    <h2>{p.name}</h2>
-                    <p>{p.description}</p>
-                    <small>{p.stack}</small>
-                  </div>
-                  <Icon name="external" />
-                </Link>
-              ))}
-            </div>
-          </>
-        ) : page === "certificazioni" ? (
-          <>
-            <PageHeading
-              label="Studio e formazione"
-              title="Imparare, poi costruire."
-              text="Le certificazioni che accompagnano gli esperimenti e il lavoro sul campo."
-            />
-            <Credentials />
-            <div className="d-diploma">
-              <span>2026 / IISS Luigi Dell’Erba</span>
-              <h2>Diploma in Informatica e Telecomunicazioni</h2>
-              <p>Le basi da cui continuo a esplorare.</p>
-            </div>
-          </>
-        ) : (
-          <>
-            <PageHeading
-              label="Restiamo in contatto"
-              title="C’è un’idea di cui parlare?"
-              text="Un progetto, una collaborazione o una conversazione tecnica. Scrivimi qui."
-            />
-            <Contacts />
-            <p className="d-contact-note">
-              Nessun form: una mail diretta, oppure ci troviamo su GitHub e
-              LinkedIn.
-            </p>
-          </>
-        )}
-      </main>
-      <footer className="d-footer">
-        <span>Lorenzo Recchia / St0rmosu</span>
-        <span>Fuori dal codice: homelab, vinili e Formula 1.</span>
-      </footer>
+      </p>
+    </footer>
+  );
+}
+function AwardPageHeading({
+  title,
+  label,
+  description,
+}: {
+  title: string;
+  label: string;
+  description: string;
+}) {
+  return (
+    <div className="aw-page-heading aw-intro">
+      <span className="aw-page-label">{label}</span>
+      <MotionTitle lines={[title]} />
+      <p className="aw-intro-support">{description}</p>
     </div>
   );
 }
-const focusAreas = [
-  {
-    label: "Web",
-    title: "Dall’idea all’interfaccia.",
-    text: "Sviluppo applicazioni con TypeScript, React e Next.js. Mi interessa come il codice diventa qualcosa che si può usare.",
-    group: "Web",
-    project: "re-life",
-  },
-  {
-    label: "Linux",
-    title: "Sotto l’interfaccia.",
-    text: "Linux è anche un laboratorio: Hyprland, applicazioni desktop e servizi che gestisco in prima persona nel mio homelab.",
-    group: "Sistemi",
-    project: "dynamic-island",
-  },
-  {
-    label: "AI locale",
-    title: "Modelli, problemi concreti.",
-    text: "Durante il PCTO ho lavorato all’analisi dei tessuti con Java e modelli locali. Esploro Ollama e gli strumenti che porta sul desktop.",
-    group: "Software",
-    project: "galileo",
-  },
-];
-function Signal({ page, project }: { page: string; project?: Project }) {
-  const [focus, setFocus] = useState(1);
-  const selected = focusAreas[focus];
-  return (
-    <div className="signal">
-      <div className="e-shell">
-        <header className="e-header">
-          <Link href={href("profilo", "E")} className="e-brand">
-            lr<span>.</span>
+function AwardProjects({ variant }: { variant: Variant }) {
+  if (variant === "G")
+    return (
+      <div className="g-project-index">
+        {projects.map((p) => (
+          <Link key={p.slug} href={href("progetti", variant, p.slug)}>
+            <span className="g-project-category">{p.category}</span>
+            <div>
+              <h2>{p.name}</h2>
+              <p>{p.description}</p>
+              <small>{p.stack}</small>
+            </div>
+            <Icon name="external" />
           </Link>
-          <span>Lorenzo Recchia / Portfolio personale</span>
-          <a
-            href="https://github.com/St0rmosu"
-            target="_blank"
-            rel="noreferrer"
-          >
-            GitHub <Icon name="external" />
-          </a>
-        </header>
-        <div className="e-mobile-nav">
-          <Nav variant="E" page={page} />
-        </div>
-        <main id="mockup-content" className="e-main">
-          {project ? (
-            <Detail project={project} variant="E" />
-          ) : page === "profilo" ? (
-            <>
-              <div className="e-home">
-                <section className="e-identity">
-                  <span className="e-role">
-                    Software developer, systems enthusiast.
-                  </span>
-                  <h1>
-                    Lorenzo
-                    <br />
-                    Recchia<span>.</span>
-                  </h1>
-                  <p>
-                    Costruisco software.
-                    <br />
-                    Tengo accesa la curiosità.
-                  </p>
-                  <Link className="e-contact-link" href={href("contatti", "E")}>
-                    Scrivimi <Icon name="external" />
-                  </Link>
-                  <div className="e-personal">
-                    <span>Altre frequenze</span>
-                    <p>Hi-fi. Vinili. Formula 1.</p>
-                  </div>
-                </section>
-                <section className="e-focus">
-                  <span className="e-focus-label">Sintonizzato su</span>
-                  <div
-                    className="e-focus-buttons"
-                    aria-label="Aree di interesse"
-                  >
-                    {focusAreas.map((area, i) => (
-                      <button
-                        key={area.label}
-                        aria-pressed={focus === i}
-                        aria-controls="signal-focus"
-                        onClick={() => setFocus(i)}
-                      >
-                        {area.label}
-                      </button>
-                    ))}
-                  </div>
-                  <div
-                    id="signal-focus"
-                    className="e-focus-content"
-                    aria-live="polite"
-                  >
-                    <span className="e-focus-symbol" aria-hidden="true">
-                      {focus === 0 ? "</>" : focus === 1 ? "~/" : "{ }"}
-                    </span>
-                    <h2>{selected.title}</h2>
-                    <p>{selected.text}</p>
-                    <Toolset group={selected.group} />
-                    <Link
-                      className="e-related"
-                      href={href("progetti", "E", selected.project)}
-                    >
-                      Esplora un progetto in quest’area <Icon name="external" />
-                    </Link>
-                  </div>
-                </section>
-              </div>
-              <div className="e-project-shortcuts">
-                {projects.map((p) => (
-                  <Link key={p.slug} href={href("progetti", "E", p.slug)}>
-                    <span>{p.category}</span>
-                    <strong>{p.name}</strong>
-                    <Icon name="external" />
-                  </Link>
-                ))}
-              </div>
-            </>
-          ) : page === "progetti" ? (
-            <>
-              <PageHeading
-                label="Dal mio laboratorio"
-                title="Idee messe alla prova."
-                text="Applicazioni, esperimenti e strumenti. Ogni progetto ha il suo contesto."
-              />
-              <div className="e-projects">
-                {projects.map((p) => (
-                  <Link key={p.slug} href={href("progetti", "E", p.slug)}>
-                    <ProjectMedia project={p} />
-                    <div>
-                      <span>{p.category}</span>
-                      <h2>{p.name}</h2>
-                      <p>{p.description}</p>
-                      <small>{p.stack}</small>
-                      <Icon name="external" />
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </>
-          ) : page === "certificazioni" ? (
-            <>
-              <PageHeading
-                label="Un percorso che continua"
-                title="Studio. Provo. Imparo."
-                text="AI, cloud e reti: le certificazioni del mio percorso, con le credenziali originali."
-              />
-              <Credentials />
-              <div className="e-diploma">
-                <span>Il punto di partenza</span>
-                <p>
-                  Diploma in Informatica e Telecomunicazioni
-                  <br />
-                  <small>IISS Luigi Dell’Erba / 2026</small>
-                </p>
-              </div>
-            </>
-          ) : (
-            <>
-              <PageHeading
-                label="Un nuovo punto di contatto"
-                title="Facciamo due parole."
-                text="Per un’idea da costruire, una collaborazione o un confronto. Mi trovi qui."
-              />
-              <Contacts />
-              <div className="e-contact-foot">
-                <span>
-                  <i /> Aperto a collaborazioni
-                </span>
-                <span>Italiano / English B2</span>
-              </div>
-            </>
-          )}
-        </main>
-        <div className="e-navigation">
-          <span>Esplora il mio spazio</span>
-          <Nav variant="E" page={page} />
-        </div>
+        ))}
       </div>
-      <footer className="e-footer">
-        <span>St0rmosu / Lorenzo Recchia</span>
-        <span>Putignano, Italia</span>
-      </footer>
-    </div>
-  );
-}
-function Notes({ page, project }: { page: string; project?: Project }) {
+    );
+  if (variant === "H")
+    return (
+      <div className="h-project-index">
+        {projects.map((p) => (
+          <article key={p.slug} className="aw-section">
+            <Link
+              className="h-project-image aw-section-media"
+              href={href("progetti", variant, p.slug)}
+              aria-label={`Apri ${p.name}`}
+            >
+              <ProjectMedia project={p} />
+            </Link>
+            <div>
+              <span>{p.category}</span>
+              <MotionTitle as="h2" lines={[p.name]} />
+              <p>{p.body}</p>
+              <small>{p.stack}</small>
+              <Link className="aw-cta" href={href("progetti", variant, p.slug)}>
+                Dentro il progetto <Icon name="external" />
+              </Link>
+            </div>
+          </article>
+        ))}
+      </div>
+    );
   return (
-    <div className="notes">
-      <aside className="f-sidebar">
-        <Link className="f-brand" href={href("profilo", "F")}>
-          lr<span>/</span>
+    <div className="i-project-index">
+      {projects.map((p) => (
+        <Link key={p.slug} href={href("progetti", variant, p.slug)}>
+          <span>{p.category}</span>
+          <h2>{p.name}</h2>
+          <p>{p.description}</p>
+          <span className="i-project-stack">{p.stack}</span>
+          <Icon name="external" />
         </Link>
-        <p>
-          Il taccuino di
-          <br />
-          <strong>Lorenzo Recchia.</strong>
-        </p>
-        <Nav variant="F" page={page} />
-        <div className="f-side-foot">
-          <a
-            href="https://github.com/St0rmosu"
-            target="_blank"
-            rel="noreferrer"
-          >
-            St0rmosu <Icon name="external" />
-          </a>
-          <span>Software / sistemi / curiosità</span>
+      ))}
+    </div>
+  );
+}
+function AwardInterior({
+  page,
+  project,
+  variant,
+}: {
+  page: string;
+  project?: Project;
+  variant: Variant;
+}) {
+  return (
+    <main className="aw-body" id="mockup-content" tabIndex={-1}>
+      {project ? (
+        <div className="aw-intro">
+          <Detail project={project} variant={variant} />
         </div>
-      </aside>
-      <div className="f-content">
-        <header className="f-top">
-          <span>Portfolio personale</span>
-          <span>Putignano, Italia</span>
-        </header>
-        <main id="mockup-content">
-          {project ? (
-            <Detail project={project} variant="F" />
-          ) : page === "profilo" ? (
-            <>
-              <div className="f-identity">
-                <span>Piacere di conoscerti.</span>
-                <h1>
-                  Lorenzo
-                  <br />
-                  Recchia.
-                </h1>
-                <p>
-                  Sviluppatore software.
-                  <br />
-                  Curioso di quello che c’è dietro.
-                </p>
-              </div>
-              <div className="f-biography">
-                <h2>Dal browser al sistema operativo.</h2>
-                <p>
-                  Sviluppo applicazioni web e desktop, lavoro con Java e Python
-                  e mi piace esplorare Linux. Ho un diploma in Informatica e
-                  Telecomunicazioni all’IISS Luigi Dell’Erba, conseguito nel
-                  2026.
-                </p>
-                <p>
-                  Durante il PCTO presso Galileo Italia ho lavorato all’analisi
-                  dei tessuti con modelli AI locali. A casa continuo gli
-                  esperimenti con un homelab Proxmox, macchine virtuali e
-                  container.
-                </p>
-              </div>
-              <section className="f-toolkit">
-                <h2>Gli strumenti sul tavolo</h2>
-                {["Web", "Software", "Sistemi"].map((group) => (
-                  <div key={group}>
-                    <span>{group}</span>
-                    <Toolset group={group} />
-                  </div>
-                ))}
-              </section>
-              <div className="f-personal">
-                <span>Una nota personale</span>
-                <p>
-                  Homelab, hi-fi, vinili e Formula 1.
-                  <br />
-                  Le altre cose a cui dedico volentieri il mio tempo.
-                </p>
-              </div>
-              <Link className="f-next" href={href("progetti", "F")}>
-                Passa ai progetti <Icon />
+      ) : page === "progetti" ? (
+        <>
+          <AwardPageHeading
+            label="Progetti personali"
+            title="Dal codice alla pratica."
+            description="Tre progetti, tre modi diversi di esplorare software, sistemi e interfacce."
+          />
+          <AwardProjects variant={variant} />
+        </>
+      ) : page === "certificazioni" ? (
+        <>
+          <AwardPageHeading
+            label="Studio e formazione"
+            title="Continuare a imparare."
+            description="AI, cloud e reti. Le credenziali originali dei percorsi che accompagnano il mio lavoro."
+          />
+          <Credentials />
+          <div className="aw-education">
+            <span>2026 / IISS Luigi Dell’Erba</span>
+            <h2>Informatica e Telecomunicazioni</h2>
+            <p>Diploma tecnico. Le basi da cui continuo a esplorare.</p>
+          </div>
+        </>
+      ) : (
+        <>
+          <AwardPageHeading
+            label="Contatti"
+            title="Parliamone."
+            description="Per un progetto, una collaborazione o un confronto sul software. Qui trovi i miei contatti diretti."
+          />
+          <Contacts />
+          <div className="aw-contact-note">
+            <span>Aperto a nuove collaborazioni</span>
+            <p>Italiano / English B2</p>
+          </div>
+        </>
+      )}
+    </main>
+  );
+}
+function Kernel({ page, project }: { page: string; project?: Project }) {
+  return (
+    <div className="kernel">
+      <AwardHeader variant="G" page={page} />
+      {page !== "profilo" ? (
+        <AwardInterior page={page} project={project} variant="G" />
+      ) : (
+        <main id="mockup-content" tabIndex={-1}>
+          <section className="g-hero aw-intro aw-pointer-surface">
+            <HeroArt kind="kernel" />
+            <div className="g-hero-copy">
+              <span className="g-role">
+                Software developer / Systems enthusiast
+              </span>
+              <MotionTitle lines={["Lorenzo", "Recchia."]} />
+            </div>
+            <div className="g-hero-bottom aw-intro-support">
+              <p>
+                Sviluppo applicazioni web e desktop.
+                <br />
+                Esploro i sistemi che le fanno funzionare.
+              </p>
+              <Link className="aw-cta" href={href("progetti", "G")}>
+                Esplora il mio lavoro <Icon name="external" />
               </Link>
-            </>
-          ) : page === "progetti" ? (
-            <>
-              <PageHeading
-                label="Appunti di progetto"
-                title="Il codice, con un contesto."
-                text="Cosa ho costruito, quali strumenti ho usato e che cosa volevo esplorare."
+              <span>Web / Linux / AI locale</span>
+            </div>
+          </section>
+          <section className="g-story aw-section">
+            <div>
+              <span className="aw-page-label">Dietro il codice</span>
+              <MotionTitle
+                as="h2"
+                lines={["Capire come funziona.", "Poi costruire qualcosa."]}
               />
-              <div className="f-projects">
-                {projects.map((p) => (
-                  <article key={p.slug}>
-                    <span>{p.category}</span>
-                    <h2>
-                      <Link href={href("progetti", "F", p.slug)}>
-                        {p.name} <Icon name="external" />
-                      </Link>
-                    </h2>
-                    <p>{p.body}</p>
-                    <small>{p.stack}</small>
-                    <Link
-                      className="f-read"
-                      href={href("progetti", "F", p.slug)}
-                    >
-                      Apri la nota sul progetto <Icon />
-                    </Link>
-                  </article>
-                ))}
+            </div>
+            <div>
+              <p>
+                Ho un diploma in Informatica e Telecomunicazioni all’IISS Luigi
+                Dell’Erba. Durante il PCTO in Galileo Italia ho lavorato
+                all’analisi dei tessuti con Java e modelli AI locali.
+              </p>
+              <p>
+                Il mio laboratorio continua a casa: Linux, un homelab Proxmox,
+                macchine virtuali e servizi da gestire in prima persona.
+              </p>
+              <div className="aw-text-tools">
+                <span>TypeScript / React / Next.js</span>
+                <span>Java / Python / Ollama</span>
+                <span>Linux / Proxmox / Git</span>
               </div>
-            </>
-          ) : page === "certificazioni" ? (
-            <>
-              <PageHeading
-                label="Percorso di studio"
-                title="Aggiungere prospettive."
-                text="Le certificazioni si affiancano a quello che imparo costruendo."
-              />
-              <Credentials />
-              <div className="f-personal">
-                <span>Formazione di base / 2026</span>
-                <p>
-                  Diploma in Informatica e Telecomunicazioni
-                  <br />
-                  IISS Luigi Dell’Erba
-                </p>
-              </div>
-            </>
-          ) : (
-            <>
-              <PageHeading
-                label="Lascia una riga"
-                title="Una conversazione, per iniziare."
-                text="Per parlare di software, di un progetto o di qualcosa che merita di essere esplorato insieme."
-              />
-              <Contacts />
-              <div className="f-personal">
-                <span>Come preferisci</span>
-                <p>
-                  Una mail diretta o un messaggio su LinkedIn.
-                  <br />
-                  Su GitHub trovi il codice e i progetti.
-                </p>
-              </div>
-            </>
-          )}
-        </main>
-        <footer className="f-footer">
-          <span>Lorenzo Recchia / St0rmosu</span>
-          <Link href={href("contatti", "F")}>
-            Restiamo in contatto <Icon name="external" />
+            </div>
+          </section>
+          <Link
+            className="g-feature aw-section"
+            href={href("progetti", "G", "dynamic-island")}
+          >
+            <span>Dal mio laboratorio</span>
+            <h2>Dynamic Island</h2>
+            <p>Il desktop Linux, ripensato.</p>
+            <Icon name="external" />
           </Link>
-        </footer>
-      </div>
+        </main>
+      )}
+      <AwardFooter />
+    </div>
+  );
+}
+function Trama({ page, project }: { page: string; project?: Project }) {
+  return (
+    <div className="trama">
+      <AwardHeader variant="H" page={page} />
+      {page !== "profilo" ? (
+        <AwardInterior page={page} project={project} variant="H" />
+      ) : (
+        <main id="mockup-content" tabIndex={-1}>
+          <section className="h-hero aw-intro">
+            <div className="h-art">
+              <HeroArt kind="trama" />
+            </div>
+            <div className="h-copy">
+              <span className="aw-page-label">
+                Software, sistemi, curiosità.
+              </span>
+              <MotionTitle lines={["Lorenzo", "Recchia."]} />
+              <div className="aw-intro-support">
+                <p className="h-lead">
+                  Mi interessa il punto in cui
+                  <br />
+                  il codice incontra le cose.
+                </p>
+                <p>
+                  Costruisco applicazioni web e desktop. Durante il PCTO in
+                  Galileo Italia ho lavorato a un’applicazione Java per
+                  l’analisi dei tessuti con modelli AI locali.
+                </p>
+                <Link className="aw-cta" href={href("progetti", "H")}>
+                  Scopri i progetti <Icon name="external" />
+                </Link>
+              </div>
+            </div>
+          </section>
+          <section className="h-notes aw-section">
+            <div>
+              <span className="aw-page-label">Un po’ di contesto</span>
+              <MotionTitle
+                as="h2"
+                lines={["Dalle interfacce", "a quello che c’è dietro."]}
+              />
+            </div>
+            <div>
+              <p>
+                Diplomato in Informatica e Telecomunicazioni all’IISS Luigi
+                Dell’Erba nel 2026. Esploro il web con TypeScript e React, il
+                software con Java e Python, i sistemi con Linux e Proxmox.
+              </p>
+              <p>Fuori dal codice: homelab, hi-fi, vinili e Formula 1.</p>
+            </div>
+          </section>
+          <div className="h-explore">
+            <Link href={href("progetti", "H")}>
+              <span>Il lavoro</span>
+              <strong>Progetti</strong>
+              <Icon name="external" />
+            </Link>
+            <Link href={href("certificazioni", "H")}>
+              <span>Il percorso</span>
+              <strong>Formazione</strong>
+              <Icon name="external" />
+            </Link>
+            <Link href={href("contatti", "H")}>
+              <span>La prossima idea</span>
+              <strong>Contatti</strong>
+              <Icon name="external" />
+            </Link>
+          </div>
+        </main>
+      )}
+      <AwardFooter />
+    </div>
+  );
+}
+function Groove({ page, project }: { page: string; project?: Project }) {
+  return (
+    <div className="groove">
+      <AwardHeader variant="I" page={page} />
+      {page !== "profilo" ? (
+        <AwardInterior page={page} project={project} variant="I" />
+      ) : (
+        <main id="mockup-content" tabIndex={-1}>
+          <section className="i-hero aw-intro aw-pointer-surface">
+            <HeroArt kind="groove" />
+            <div className="i-hero-top">
+              <span>Codice, ascolto, curiosità.</span>
+              <span>Portfolio personale</span>
+            </div>
+            <div className="i-identity">
+              <span className="i-role">Software developer</span>
+              <MotionTitle lines={["Lorenzo", "Recchia."]} />
+              <p className="aw-intro-support">
+                Web, desktop e sistemi Linux.
+                <br />
+                Precisione nel codice, curiosità nel resto.
+              </p>
+              <Link className="aw-cta" href={href("progetti", "I")}>
+                Entra nei progetti <Icon name="external" />
+              </Link>
+            </div>
+            <div className="i-bottom">
+              <span>Hi-fi / Vinili / Software</span>
+              <span>Putignano, Italia</span>
+            </div>
+          </section>
+          <section className="i-work-links aw-section">
+            <div>
+              <span className="aw-page-label">Dal mio laboratorio</span>
+              <MotionTitle as="h2" lines={["Tre progetti da esplorare."]} />
+            </div>
+            {projects.map((p) => (
+              <Link key={p.slug} href={href("progetti", "I", p.slug)}>
+                <span>{p.category}</span>
+                <strong>{p.name}</strong>
+                <Icon name="external" />
+              </Link>
+            ))}
+          </section>
+          <section className="i-context aw-section">
+            <MotionTitle
+              as="h2"
+              lines={["Software e sistemi.", "Con una mente curiosa."]}
+            />
+            <div>
+              <p>
+                Diploma in Informatica e Telecomunicazioni, un’esperienza PCTO
+                in Galileo Italia con Java e AI locale, e un homelab Proxmox in
+                cui continuare gli esperimenti.
+              </p>
+              <p>
+                Fuori dal portatile, la stessa attenzione va ai vinili e
+                all’hi-fi. È da qui che nasce questa direzione visiva.
+              </p>
+            </div>
+          </section>
+        </main>
+      )}
+      <AwardFooter />
     </div>
   );
 }
@@ -812,18 +682,18 @@ function Overview() {
       </header>
       <main>
         <span className="o-kicker">
-          Tre nuove direzioni. Sempre multipagina.
+          Tre direzioni con build-awwwards-quality-sites.
         </span>
         <h1>
-          Un’altra prospettiva sul tuo
+          Una direzione più forte per il tuo
           <br />
           <em>portfolio.</em>
         </h1>
         <p>
-          Tre nuove composizioni, sviluppate dopo aver studiato i riferimenti
-          che hai scelto. Apri un mockup, naviga tra le pagine e confrontalo con
-          gli altri. Possiamo scegliere una direzione o combinare gli elementi
-          che preferisci.
+          Immagini originali, tipografia e movimento: tre proposte costruite
+          intorno alla tua storia. Apri un mockup, naviga tra le pagine e
+          confrontalo con gli altri. Possiamo scegliere una direzione o
+          combinare gli elementi che preferisci.
         </p>
         <div className="o-variants">
           {variants.map((v) => (
@@ -862,7 +732,8 @@ function Overview() {
         </div>
       </main>
       <footer>
-        Prototipi di esplorazione / Nessuna direzione è ancora definitiva.
+        Prototipi di esplorazione / Nessuna direzione è ancora definitiva. Icone
+        Solar di 480 Design, CC BY 4.0.
       </footer>
     </div>
   );
@@ -952,6 +823,11 @@ function PrototypeSwitcher({
 export default function MockupLab(props: Props) {
   const { variant, page, slug, overview, reviewMode } = props;
   const project = projects.find((p) => p.slug === slug);
+  const root = useRef<HTMLDivElement>(null);
+  useAwwwardsMotion(
+    root,
+    `${overview ? "overview" : variant}/${page}/${slug || ""}`,
+  );
   if (overview)
     return (
       <div className="mockup-lab">
@@ -959,16 +835,24 @@ export default function MockupLab(props: Props) {
       </div>
     );
   return (
-    <div className={`mockup-lab variant-${variant}`}>
-      <a className="m-skip" href="#mockup-content">
+    <div className={`mockup-lab variant-${variant}`} ref={root}>
+      <a
+        className="m-skip"
+        href="#mockup-content"
+        onClick={() =>
+          document
+            .getElementById("mockup-content")
+            ?.focus({ preventScroll: true })
+        }
+      >
         Vai al contenuto
       </a>
-      {variant === "D" ? (
-        <Meridian page={page} project={project} />
-      ) : variant === "E" ? (
-        <Signal page={page} project={project} />
+      {variant === "G" ? (
+        <Kernel page={page} project={project} />
+      ) : variant === "H" ? (
+        <Trama page={page} project={project} />
       ) : (
-        <Notes page={page} project={project} />
+        <Groove page={page} project={project} />
       )}
       {reviewMode && (
         <PrototypeSwitcher variant={variant} page={page} slug={slug} />

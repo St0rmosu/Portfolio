@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import MockupLab from "@/components/mockups/MockupLab";
 import { projects } from "@/components/mockups/data";
 import "@fontsource-variable/space-grotesk";
+import "@fontsource-variable/oswald";
 import "./mockups.css";
 
 export const metadata: Metadata = {
@@ -29,7 +30,7 @@ export default async function MockupPage({
     notFound();
   return (
     <MockupLab
-      variant={variant === "E" || variant === "F" ? variant : "D"}
+      variant={variant === "H" || variant === "I" ? variant : "G"}
       page={page}
       slug={section[1]}
       overview={!variant && !section.length}

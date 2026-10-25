@@ -101,94 +101,30 @@ export const pages = [
 ];
 export const variants = [
   {
-    id: "D",
-    name: "Meridian",
-    summary: "Un profilo tecnico, tutto tuo.",
+    id: "G",
+    name: "Kernel",
+    summary: "Dentro il sistema.",
     description:
-      "Biografia e strumenti in due colonne, navigazione orizzontale e progetti da approfondire. Grafite, menta fredda e una composizione compatta.",
-    traits: "Tecnico · Compatto · Ordinato",
-    image: "/mockups/preview-D.jpg",
+      "Nero e argento, tipografia condensata e una scultura digitale originale. Un’apertura ampia, con movimento al puntatore e un indice progetti essenziale.",
+    traits: "Monumentale · Tecnico · Essenziale",
+    image: "/mockups/preview-G.jpg",
   },
   {
-    id: "E",
-    name: "Signal",
-    summary: "Un’interfaccia personale da esplorare.",
+    id: "H",
+    name: "Trama",
+    summary: "Il codice incontra la materia.",
     description:
-      "Una composizione centrale con aree di interesse interattive, luce viola discreta e navigazione sul bordo inferiore.",
-    traits: "Interattivo · Morbido · Raccolto",
-    image: "/mockups/preview-E.jpg",
+      "Una composizione editoriale costruita intorno a un nastro tessile originale. Toni caldi, titoli serif e una storia legata al tuo lavoro con l’AI locale.",
+    traits: "Editoriale · Materico · Personale",
+    image: "/mockups/preview-H.jpg",
   },
   {
-    id: "F",
-    name: "Notes",
-    summary: "Il tuo percorso, senza rumore.",
+    id: "I",
+    name: "Groove",
+    summary: "Precisione digitale, sensibilità analogica.",
     description:
-      "Un quaderno tecnico scuro: indice laterale, nome serif, competenze e progetti come note da aprire. Testuale, diretto, essenziale.",
-    traits: "Personale · Testuale · Essenziale",
-    image: "/mockups/preview-F.jpg",
-  },
-];
-export const toolkit = [
-  {
-    name: "TypeScript",
-    icon: "typescript",
-    group: "Web",
-    href: "https://www.typescriptlang.org/",
-  },
-  { name: "React", icon: "react", group: "Web", href: "https://react.dev/" },
-  {
-    name: "Next.js",
-    icon: "nextdotjs",
-    group: "Web",
-    href: "https://nextjs.org/",
-  },
-  {
-    name: "CSS",
-    icon: "css",
-    group: "Web",
-    href: "https://developer.mozilla.org/en-US/docs/Web/CSS",
-  },
-  {
-    name: "Java",
-    icon: "openjdk",
-    group: "Software",
-    href: "https://openjdk.org/",
-  },
-  {
-    name: "Python",
-    icon: "python",
-    group: "Software",
-    href: "https://www.python.org/",
-  },
-  {
-    name: "Ollama",
-    icon: "ollama",
-    group: "Software",
-    href: "https://ollama.com/",
-  },
-  { name: "Git", icon: "git", group: "Software", href: "https://git-scm.com/" },
-  {
-    name: "Linux",
-    icon: "linux",
-    group: "Sistemi",
-    href: "https://kernel.org/",
-  },
-  {
-    name: "Proxmox",
-    icon: "proxmox",
-    group: "Sistemi",
-    href: "https://www.proxmox.com/",
-  },
-  {
-    name: "Bash",
-    icon: "gnubash",
-    group: "Sistemi",
-    href: "https://www.gnu.org/software/bash/",
-  },
-  {
-    name: "PostgreSQL",
-    icon: "postgresql",
-    group: "Sistemi",
-    href: "https://www.postgresql.org/",
+      "Un vinile come scena cinematografica, luce blu radente e identità ai bordi. L’ispirazione arriva dai tuoi interessi hi-fi, senza finti player o audio automatico.",
+    traits: "Cinematografico · Immersivo · Hi-fi",
+    image: "/mockups/preview-I.jpg",
   },
 ];
