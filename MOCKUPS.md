@@ -8,7 +8,7 @@ Domanda aperta: quale identità e quale struttura si avvicinano al portfolio des
 npm run mockups
 ```
 
-Aprire `http://localhost:3001/mockup`. La schermata di confronto collega le tre proposte. Ogni mockup ha pagine distinte per profilo, progetti, certificazioni e contatti, più quattro pagine di dettaglio dei progetti.
+Aprire `http://localhost:3001/mockup`. La schermata di confronto collega le tre proposte. Ogni mockup ha pagine distinte per profilo, progetti, certificazioni e contatti, più tre pagine di dettaglio dei progetti.
 
 - A / Workspace: `/mockup?variant=A`
 - B / Studio: `/mockup?variant=B`
@@ -45,7 +45,6 @@ Contenuti personali, collegamenti e credenziali: portfolio pubblico di Lorenzo R
 Screenshot originali dei progetti:
 
 - `St0rmosu/dynamic-island-hyprland`, `assets/screenshots/full_desktop.png` e `assets/screenshots/control_center.png`.
-- `St0rmosu/hyprfm`, `docs/screenshots/grid-view.png`.
 
 Le due immagini di Dynamic Island sono presentate insieme come collage di screenshot. Per GALILEO e RE-LIFE sono usate composizioni esclusivamente tipografiche, senza fingere schermate delle applicazioni. Le miniature `public/mockups/preview-*.jpg` sono catture browser dei prototipi stessi.
 
@@ -56,7 +55,9 @@ Tre proposte esplorative sul branch `prototype/portfolio-directions`. Nessuna sc
 ## Verifiche eseguite
 
 - Build di produzione Next.js e controllo TypeScript.
-- Apertura delle otto pagine per ciascuna proposta, con verifica delle immagini e dell’assenza di scorrimento orizzontale a 320 px.
+- Apertura delle sette pagine per ciascuna proposta, con verifica delle immagini e dell’assenza di scorrimento orizzontale a 320 px.
 - Catture dei layout desktop e mobile, controllate visivamente.
 - Cambio variante mantenendo il dettaglio progetto, navigazione con le frecce e tasto Indietro del browser.
 - Schermata di confronto con tre miniature caricate e nessun errore JavaScript nei percorsi controllati.
+
+Selezione dei progetti: hyprfm è un fork ed è escluso dal portfolio e da tutti i mockup.

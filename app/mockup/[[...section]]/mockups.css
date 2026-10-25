@@ -93,11 +93,6 @@
   border-radius: 14px;
   box-shadow: 0 14px 40px #0004;
 }
-.m-project-media.hyprfm .m-product-screen {
-  object-fit: contain;
-  background: #171725;
-  padding: 5%;
-}
 .m-project-specimen {
   display: flex;
   flex-direction: column;

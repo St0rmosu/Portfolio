@@ -19,23 +19,6 @@ export const projects = [
     ],
   },
   {
-    slug: "hyprfm",
-    name: "hyprfm",
-    category: "Strumenti desktop",
-    stack: "Qt6 / QML / Linux",
-    repo: "hyprfm",
-    image: "/mockups/hyprfm.png",
-    cover: "/mockups/hyprfm.png",
-    description:
-      "Un file manager leggero, pensato per sentirsi a casa su Hyprland.",
-    body: "Un’esplorazione degli strumenti quotidiani di Linux: un file manager in Qt6 e QML, progettato per integrarsi con l’ambiente Hyprland e mantenere l’interfaccia essenziale.",
-    focus: [
-      "Navigazione dei file",
-      "Interfaccia Qt6 e QML",
-      "Integrazione con Hyprland",
-    ],
-  },
-  {
     slug: "galileo",
     name: "GALILEO",
     category: "Intelligenza artificiale",

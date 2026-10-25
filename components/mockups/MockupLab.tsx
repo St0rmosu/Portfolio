@@ -134,8 +134,8 @@ function ProjectMedia({
             className="m-product-screen"
             src={project.cover}
             alt={`Screenshot di ${project.name}`}
-            width={project.slug === "hyprfm" ? 2048 : 1920}
-            height={project.slug === "hyprfm" ? 1221 : 1080}
+            width={1920}
+            height={1080}
           />
           {project.slug === "dynamic-island" && (
             <>
@@ -401,11 +401,11 @@ function Workspace({ page, project }: { page: string; project?: Project }) {
                     ))}
                   </div>
                   <div className="w-project-preview">
-                    <ProjectMedia project={projects[1]} />
+                    <ProjectMedia project={projects[0]} />
                     <p>
-                      hyprfm
+                      {projects[0].name}
                       <br />
-                      <span>Un file manager, pensato per Hyprland.</span>
+                      <span>{projects[0].description}</span>
                     </p>
                   </div>
                 </>
