@@ -1,5 +1,5 @@
-import Desktop from "@/components/Desktop";
+import Portfolio from "@/components/Portfolio";
 
 export default function Home() {
-  return <Desktop />;
+  return <Portfolio />;
 }

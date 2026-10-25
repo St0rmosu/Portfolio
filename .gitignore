@@ -46,3 +46,6 @@ next-env.d.ts
 # temp artifacts
 portfolio-*.png
 handoff.md
+
+/test-results/
+/playwright-report/
