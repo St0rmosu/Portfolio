@@ -1,0 +1,5 @@
+Solar icons by 480 Design
+Source: https://icon-sets.iconify.design/solar/
+Served via https://api.iconify.design/solar/
+License: CC BY 4.0, https://creativecommons.org/licenses/by/4.0/
+Geometry unchanged. Monochrome presentation applied through CSS.
