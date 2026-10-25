@@ -6,7 +6,7 @@ import "@fontsource-variable/space-grotesk";
 import "./mockups.css";
 
 export const metadata: Metadata = {
-  title: "Lorenzo Recchia — Tre direzioni per il portfolio",
+  title: "Lorenzo Recchia — Nuove direzioni per il portfolio",
   robots: { index: false, follow: false },
 };
 export default async function MockupPage({
@@ -29,7 +29,7 @@ export default async function MockupPage({
     notFound();
   return (
     <MockupLab
-      variant={variant === "B" || variant === "C" ? variant : "A"}
+      variant={variant === "E" || variant === "F" ? variant : "D"}
       page={page}
       slug={section[1]}
       overview={!variant && !section.length}

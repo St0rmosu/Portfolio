@@ -101,30 +101,94 @@ export const pages = [
 ];
 export const variants = [
   {
-    id: "A",
-    name: "Workspace",
-    summary: "Il tuo mondo Linux, riordinato.",
+    id: "D",
+    name: "Meridian",
+    summary: "Un profilo tecnico, tutto tuo.",
     description:
-      "Pannelli scuri, navigazione laterale e contenuti compatti. Mantiene il carattere da workspace del sito attuale, con una gerarchia più chiara.",
-    traits: "Tecnico · Compatto · Personale",
-    image: "/mockups/preview-A.jpg",
+      "Biografia e strumenti in due colonne, navigazione orizzontale e progetti da approfondire. Grafite, menta fredda e una composizione compatta.",
+    traits: "Tecnico · Compatto · Ordinato",
+    image: "/mockups/preview-D.jpg",
   },
   {
-    id: "B",
-    name: "Studio",
-    summary: "Prima la persona, poi il codice.",
+    id: "E",
+    name: "Signal",
+    summary: "Un’interfaccia personale da esplorare.",
     description:
-      "Un portfolio chiaro e arioso: tipografia serif, ritratto e navigazione da taccuino. I progetti diventano storie da aprire e leggere.",
-    traits: "Luminoso · Umano · Essenziale",
-    image: "/mockups/preview-B.jpg",
+      "Una composizione centrale con aree di interesse interattive, luce viola discreta e navigazione sul bordo inferiore.",
+    traits: "Interattivo · Morbido · Raccolto",
+    image: "/mockups/preview-E.jpg",
   },
   {
-    id: "C",
-    name: "Archive",
-    summary: "Il lavoro occupa la scena.",
+    id: "F",
+    name: "Notes",
+    summary: "Il tuo percorso, senza rumore.",
     description:
-      "Una galleria scura con navigazione orizzontale, titoli ampi e screenshot reali. Ogni progetto ha una pagina di approfondimento.",
-    traits: "Visivo · Diretto · Immersivo",
-    image: "/mockups/preview-C.jpg",
+      "Un quaderno tecnico scuro: indice laterale, nome serif, competenze e progetti come note da aprire. Testuale, diretto, essenziale.",
+    traits: "Personale · Testuale · Essenziale",
+    image: "/mockups/preview-F.jpg",
+  },
+];
+export const toolkit = [
+  {
+    name: "TypeScript",
+    icon: "typescript",
+    group: "Web",
+    href: "https://www.typescriptlang.org/",
+  },
+  { name: "React", icon: "react", group: "Web", href: "https://react.dev/" },
+  {
+    name: "Next.js",
+    icon: "nextdotjs",
+    group: "Web",
+    href: "https://nextjs.org/",
+  },
+  {
+    name: "CSS",
+    icon: "css",
+    group: "Web",
+    href: "https://developer.mozilla.org/en-US/docs/Web/CSS",
+  },
+  {
+    name: "Java",
+    icon: "openjdk",
+    group: "Software",
+    href: "https://openjdk.org/",
+  },
+  {
+    name: "Python",
+    icon: "python",
+    group: "Software",
+    href: "https://www.python.org/",
+  },
+  {
+    name: "Ollama",
+    icon: "ollama",
+    group: "Software",
+    href: "https://ollama.com/",
+  },
+  { name: "Git", icon: "git", group: "Software", href: "https://git-scm.com/" },
+  {
+    name: "Linux",
+    icon: "linux",
+    group: "Sistemi",
+    href: "https://kernel.org/",
+  },
+  {
+    name: "Proxmox",
+    icon: "proxmox",
+    group: "Sistemi",
+    href: "https://www.proxmox.com/",
+  },
+  {
+    name: "Bash",
+    icon: "gnubash",
+    group: "Sistemi",
+    href: "https://www.gnu.org/software/bash/",
+  },
+  {
+    name: "PostgreSQL",
+    icon: "postgresql",
+    group: "Sistemi",
+    href: "https://www.postgresql.org/",
   },
 ];

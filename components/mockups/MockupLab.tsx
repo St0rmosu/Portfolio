@@ -1,8 +1,8 @@
 "use client";
-/* Prototype: three complete multi-page directions, switchable with ?variant=A|B|C.
+/* Prototype: three complete multi-page directions, switchable with ?variant=D|E|F.
    The design decision is intentionally pending the user's comparison. */
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import {
   credentials,
@@ -10,10 +10,11 @@ import {
   pages,
   projects,
   variants,
+  toolkit,
   type Project,
 } from "./data";
 
-type Variant = "A" | "B" | "C";
+type Variant = "D" | "E" | "F";
 type Props = {
   variant: Variant;
   page: string;
@@ -94,12 +95,8 @@ function Nav({ variant, page }: { variant: Variant; page: string }) {
           aria-current={page === p.id ? "page" : undefined}
         >
           <Icon name={p.icon} />
-          <span>
-            {variant === "C" && p.id === "profilo" ? "Indice" : p.label}
-          </span>
-          <span className="m-nav-trail">
-            {variant === "A" ? `${pages.indexOf(p) + 1}` : "↗"}
-          </span>
+          <span>{p.label}</span>
+          <span className="m-nav-trail">↗</span>
         </Link>
       ))}
     </nav>
@@ -257,404 +254,61 @@ function Detail({ project, variant }: { project: Project; variant: Variant }) {
   );
 }
 
-function Workspace({ page, project }: { page: string; project?: Project }) {
+function TechMark({ icon }: { icon: string }) {
+  // Logos by Simple Icons, presented beside the actual technology name.
+  // eslint-disable-next-line @next/next/no-img-element
   return (
-    <div className="m-workspace">
-      <header className="w-topbar">
-        <Link href={href("profilo", "A")} className="w-brand">
-          <span className="w-brand-mark">lr</span>Lorenzo’s workspace
-        </Link>
-        <span className="w-top-center">Software, sistemi e curiosità.</span>
-        <a href="https://github.com/St0rmosu" target="_blank" rel="noreferrer">
-          St0rmosu <Icon name="external" />
-        </a>
-      </header>
-      <div className="w-layout">
-        <aside className="w-sidebar">
-          <div className="w-identity">
-            <Portrait />
-            <strong>Lorenzo Recchia</strong>
-            <span>Software developer</span>
-            <p>
-              <i /> Disponibile per collaborare
-            </p>
-          </div>
-          <span className="w-sidebar-label">Il mio spazio</span>
-          <Nav variant="A" page={page} />
-          <div className="w-sidebar-bottom">
-            <span>Putignano, Italia</span>
-            <a href="mailto:rccialrnzo605@gmail.com">
-              Scrivimi <Icon name="mail" />
-            </a>
-          </div>
-        </aside>
-        <main className="w-main" id="mockup-content">
-          <div className="w-breadcrumb">
-            <span>portfolio</span>
-            <span>/</span>
-            <b>
-              {page}
-              {project ? ` / ${project.slug}` : ""}
-            </b>
-            <span className="w-file-type">.md</span>
-          </div>
-          <div className="w-window">
-            <div className="w-window-bar">
-              <span>
-                <i />
-                <i />
-                <i />
-              </span>
-              <span>
-                {project
-                  ? project.name
-                  : pages.find((p) => p.id === page)?.label}
-              </span>
-              <span className="w-window-indicator" />
-            </div>
-            <div className="w-window-body">
-              {project ? (
-                <Detail project={project} variant="A" />
-              ) : page === "profilo" ? (
-                <>
-                  <div className="w-intro">
-                    <div>
-                      <p className="m-page-kicker">
-                        Software developer / St0rmosu
-                      </p>
-                      <h1>
-                        Ciao, sono
-                        <br />
-                        <em>Lorenzo.</em>
-                      </h1>
-                      <p className="w-intro-text">
-                        Sviluppo applicazioni web e desktop.
-                        <br />
-                        Con Linux mi sento a casa.
-                      </p>
-                      <Link className="m-action" href={href("progetti", "A")}>
-                        Apri i progetti <Icon name="arrow" />
-                      </Link>
-                    </div>
-                    <div className="w-profile-photo">
-                      <Portrait />
-                      <span>Fuori dallo schermo, ogni tanto.</span>
-                    </div>
-                  </div>
-                  <div className="w-bottom-grid">
-                    <div className="w-terminal">
-                      <span className="w-module-title">
-                        <i /> about.txt
-                      </span>
-                      <p>
-                        Diplomato in Informatica e Telecomunicazioni. Ho
-                        lavorato all’analisi dei tessuti con AI locale durante
-                        il tirocinio in Galileo Italia.
-                      </p>
-                      <div className="w-terminal-line">
-                        <span>~/interessi</span> homelab · vinili · F1
-                      </div>
-                    </div>
-                    <Link
-                      className="w-featured"
-                      href={href("progetti", "A", "dynamic-island")}
-                    >
-                      <span className="w-module-title">
-                        Dal mio laboratorio <Icon name="external" />
-                      </span>
-                      <ProjectMedia project={projects[0]} />
-                      <strong>
-                        Dynamic Island <span>Linux / Quickshell</span>
-                      </strong>
-                    </Link>
-                  </div>
-                  <div className="w-stack">
-                    <span>Nel mio toolkit</span>
-                    <p>
-                      TypeScript <b>/</b> React <b>/</b> Java <b>/</b> Python{" "}
-                      <b>/</b> Linux <b>/</b> Proxmox
-                    </p>
-                  </div>
-                </>
-              ) : page === "progetti" ? (
-                <>
-                  <div className="w-page-heading">
-                    <p className="m-page-kicker">Il laboratorio</p>
-                    <h1>Progetti aperti.</h1>
-                    <p>
-                      Strumenti che uso, idee che esploro, codice che condivido.
-                    </p>
-                  </div>
-                  <div className="w-project-list">
-                    {projects.map((p) => (
-                      <Link key={p.slug} href={href("progetti", "A", p.slug)}>
-                        <span className="w-project-file">
-                          <Icon name="folder" />
-                        </span>
-                        <div>
-                          <h2>{p.name}</h2>
-                          <p>{p.description}</p>
-                        </div>
-                        <span className="w-project-type">{p.category}</span>
-                        <Icon name="external" />
-                      </Link>
-                    ))}
-                  </div>
-                  <div className="w-project-preview">
-                    <ProjectMedia project={projects[0]} />
-                    <p>
-                      {projects[0].name}
-                      <br />
-                      <span>{projects[0].description}</span>
-                    </p>
-                  </div>
-                </>
-              ) : page === "certificazioni" ? (
-                <>
-                  <div className="w-page-heading">
-                    <p className="m-page-kicker">Studio e formazione</p>
-                    <h1>
-                      Non si smette
-                      <br />
-                      di imparare.
-                    </h1>
-                    <p>
-                      AI, cloud e reti: percorsi che aggiungono nuove
-                      prospettive.
-                    </p>
-                  </div>
-                  <Credentials />
-                  <div className="w-education">
-                    <span>2026</span>
-                    <div>
-                      <h2>Diploma in Informatica e Telecomunicazioni</h2>
-                      <p>IISS Luigi Dell’Erba</p>
-                    </div>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="w-page-heading">
-                    <p className="m-page-kicker">Una nuova connessione</p>
-                    <h1>Parliamone.</h1>
-                    <p>
-                      Un progetto, una domanda o un’idea da mettere alla prova.
-                    </p>
-                  </div>
-                  <Contacts />
-                  <div className="w-contact-note">
-                    <span className="w-prompt">lorenzo@portfolio:~$</span>
-                    <p>
-                      La prossima conversazione può iniziare qui.
-                      <span className="w-caret" />
-                    </p>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-          <footer className="w-statusbar">
-            <span>
-              <i /> Tutto parte dalla curiosità.
-            </span>
-            <span>Italiano / English B2</span>
-          </footer>
-        </main>
-      </div>
+    <img
+      className="tech-mark"
+      src={`/mockups/icons/${icon}.svg`}
+      width="32"
+      height="32"
+      alt=""
+    />
+  );
+}
+function Toolset({ group }: { group?: string }) {
+  return (
+    <div className="toolset">
+      {toolkit
+        .filter((t) => !group || t.group === group)
+        .map((tool) => (
+          <a key={tool.name} href={tool.href} target="_blank" rel="noreferrer">
+            <TechMark icon={tool.icon} />
+            <span>{tool.name}</span>
+          </a>
+        ))}
     </div>
   );
 }
-
-function Studio({ page, project }: { page: string; project?: Project }) {
+function PageHeading({
+  title,
+  text,
+  label,
+}: {
+  title: string;
+  text: string;
+  label: string;
+}) {
   return (
-    <div className="m-studio">
-      <aside className="s-sidebar">
-        <Link className="s-name" href={href("profilo", "B")}>
-          Lorenzo
-          <br />
-          Recchia<span>.</span>
-        </Link>
-        <p>
-          Sviluppatore software
-          <br />& persona curiosa.
-        </p>
-        <Nav variant="B" page={page} />
-        <div className="s-sidebar-bottom">
-          <span>Putignano, Italia</span>
-          <a
-            href="https://github.com/St0rmosu"
-            target="_blank"
-            rel="noreferrer"
-          >
-            GitHub / St0rmosu <Icon name="external" />
-          </a>
-          <span className="s-open">
-            <i /> Aperto a nuove idee
-          </span>
-        </div>
-      </aside>
-      <div className="s-main">
-        <header className="s-topline">
-          <span>Uno spazio personale, sul web.</span>
-          <a href="mailto:rccialrnzo605@gmail.com">
-            Facciamo due parole <Icon name="external" />
-          </a>
-        </header>
-        <main id="mockup-content">
-          {project ? (
-            <Detail project={project} variant="B" />
-          ) : page === "profilo" ? (
-            <>
-              <div className="s-intro">
-                <div className="s-intro-copy">
-                  <span className="s-hello">Piacere di conoscerti.</span>
-                  <h1>
-                    Una mente
-                    <br />
-                    curiosa.
-                    <br />
-                    <em>
-                      Le mani
-                      <br />
-                      nel codice.
-                    </em>
-                  </h1>
-                  <p>
-                    Sono Lorenzo, sviluppo software e mi piace capire come
-                    funzionano le cose. Dalle interfacce web ai sistemi che le
-                    fanno girare.
-                  </p>
-                  <Link className="s-text-link" href={href("progetti", "B")}>
-                    Conosci i miei progetti <Icon name="arrow" />
-                  </Link>
-                </div>
-                <figure className="s-photo">
-                  <Portrait />
-                  <figcaption>Io, quando chiudo il portatile.</figcaption>
-                </figure>
-              </div>
-              <div className="s-profile-notes">
-                <div>
-                  <span>Da dove parto</span>
-                  <p>
-                    Un diploma in Informatica e Telecomunicazioni e un tirocinio
-                    in Galileo Italia, lavorando con Java e modelli AI locali.
-                  </p>
-                </div>
-                <div>
-                  <span>Cosa mi incuriosisce</span>
-                  <p>
-                    Il web, Linux e il mio homelab Proxmox. Nel tempo libero:
-                    vinili, hi-fi e Formula 1.
-                  </p>
-                </div>
-              </div>
-              <Link className="s-next-page" href={href("progetti", "B")}>
-                <span>Il codice racconta il resto.</span>
-                <span>
-                  Esplora i progetti <Icon name="external" />
-                </span>
-              </Link>
-            </>
-          ) : page === "progetti" ? (
-            <>
-              <div className="s-page-heading">
-                <span className="m-page-kicker">
-                  Dagli esperimenti alle applicazioni
-                </span>
-                <h1>
-                  Qualcosa
-                  <br />
-                  <em>di concreto.</em>
-                </h1>
-                <p>
-                  Una selezione di progetti tra sviluppo web, desktop e
-                  intelligenza artificiale.
-                </p>
-              </div>
-              <div className="s-project-list">
-                {projects.map((p) => (
-                  <Link key={p.slug} href={href("progetti", "B", p.slug)}>
-                    <div className="s-project-caption">
-                      <div>
-                        <span>{p.category}</span>
-                        <h2>{p.name}</h2>
-                        <p>{p.description}</p>
-                      </div>
-                      <Icon name="external" />
-                    </div>
-                    <ProjectMedia project={p} />
-                  </Link>
-                ))}
-              </div>
-            </>
-          ) : page === "certificazioni" ? (
-            <>
-              <div className="s-page-heading">
-                <span className="m-page-kicker">Il mio percorso</span>
-                <h1>
-                  La curiosità
-                  <br />
-                  <em>si coltiva.</em>
-                </h1>
-                <p>
-                  Le certificazioni che accompagnano quello che imparo sul
-                  campo.
-                </p>
-              </div>
-              <Credentials />
-              <div className="s-education">
-                <span>La formazione di base</span>
-                <h2>Informatica e Telecomunicazioni</h2>
-                <p>IISS Luigi Dell’Erba / Diploma 2026</p>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="s-page-heading">
-                <span className="m-page-kicker">
-                  Una conversazione, per iniziare
-                </span>
-                <h1>
-                  Le idee belle
-                  <br />
-                  <em>si condividono.</em>
-                </h1>
-                <p>
-                  Se vuoi parlare di un progetto o semplicemente scambiare due
-                  parole, mi trovi qui.
-                </p>
-              </div>
-              <Contacts />
-              <p className="s-signature">
-                A presto,
-                <br />
-                <span>Lorenzo.</span>
-              </p>
-            </>
-          )}
-        </main>
-        <footer className="s-footer">
-          <span>Fatto con curiosità, da Lorenzo Recchia.</span>
-          <Link href={href("contatti", "B")}>
-            Restiamo in contatto <Icon name="external" />
-          </Link>
-        </footer>
-      </div>
+    <div className="new-page-heading">
+      <span>{label}</span>
+      <h1>{title}</h1>
+      <p>{text}</p>
     </div>
   );
 }
-
-function Archive({ page, project }: { page: string; project?: Project }) {
+function Meridian({ page, project }: { page: string; project?: Project }) {
   return (
-    <div className="m-archive">
-      <header className="r-header">
-        <Link className="r-logo" href={href("profilo", "C")}>
-          Lorenzo Recchia<span>Software developer</span>
+    <div className="meridian">
+      <header className="d-header">
+        <Link className="d-brand" href={href("profilo", "D")}>
+          <span>lr/</span>
+          <b>Lorenzo Recchia</b>
         </Link>
-        <Nav variant="C" page={page} />
+        <Nav variant="D" page={page} />
         <a
-          className="r-github"
+          className="d-github"
           href="https://github.com/St0rmosu"
           target="_blank"
           rel="noreferrer"
@@ -662,163 +316,487 @@ function Archive({ page, project }: { page: string; project?: Project }) {
           St0rmosu <Icon name="external" />
         </a>
       </header>
-      <main id="mockup-content" className="r-main">
+      <main id="mockup-content" className="d-main">
         {project ? (
-          <Detail project={project} variant="C" />
+          <Detail project={project} variant="D" />
         ) : page === "profilo" ? (
           <>
-            <div className="r-intro-top">
-              <span>Web. Desktop. Sistemi.</span>
-              <span className="r-available">
-                <i /> Disponibile per nuove collaborazioni
-              </span>
-            </div>
-            <div className="r-intro">
-              <h1>
-                Dentro
-                <br />
-                il software.
-              </h1>
-              <div className="r-intro-bio">
-                <Portrait />
-                <p>
-                  Sono Lorenzo Recchia.
+            <div className="d-profile-grid">
+              <section className="d-identity">
+                <div className="d-intro-line">
+                  <Portrait />
+                  <span>
+                    Software developer
+                    <br />
+                    <small>Putignano, Italia</small>
+                  </span>
+                </div>
+                <h1>
+                  Lorenzo
                   <br />
-                  Costruisco applicazioni, esploro Linux e cerco sempre qualcosa
-                  da capire.
+                  Recchia<span>.</span>
+                </h1>
+                <p className="d-lead">
+                  Dal browser al desktop.
+                  <br />
+                  Mi piace capire come funzionano le cose.
                 </p>
-                <Link href={href("contatti", "C")}>
-                  Conosciamoci <Icon name="external" />
-                </Link>
-              </div>
-            </div>
-            <Link
-              className="r-feature"
-              href={href("progetti", "C", "dynamic-island")}
-            >
-              <div className="r-feature-copy">
-                <span>Dal mio laboratorio</span>
-                <h2>
-                  Il desktop,
-                  <br />
-                  ripensato.
-                </h2>
-                <p>Dynamic Island per Hyprland</p>
-                <span className="r-project-go">
-                  Entra nel progetto <Icon name="external" />
+                <p>
+                  Sviluppo applicazioni web e desktop, esploro l’AI locale e
+                  gestisco un homelab Proxmox. Il punto di partenza è quasi
+                  sempre una domanda.
+                </p>
+                <div className="d-intro-links">
+                  <Link className="m-action" href={href("progetti", "D")}>
+                    Esplora i progetti <Icon />
+                  </Link>
+                  <Link href={href("contatti", "D")}>Facciamo due parole</Link>
+                </div>
+                <span className="d-availability">
+                  <i /> Aperto a nuove collaborazioni
                 </span>
-              </div>
-              <ProjectMedia project={projects[0]} />
-            </Link>
-            <div className="r-index-bottom">
-              <span>
-                Sviluppo per imparare.
-                <br />
-                Condivido per crescere.
-              </span>
-              <Link href={href("progetti", "C")}>
-                L’archivio dei progetti <Icon name="external" />
+              </section>
+              <section className="d-tools">
+                <div className="d-tools-heading">
+                  <span>Con cosa lavoro</span>
+                  <span>Web / software / sistemi</span>
+                </div>
+                {["Web", "Software", "Sistemi"].map((group) => (
+                  <div className="d-tool-group" key={group}>
+                    <h2>{group}</h2>
+                    <Toolset group={group} />
+                  </div>
+                ))}
+                <p>Strumenti diversi. La stessa curiosità.</p>
+              </section>
+            </div>
+            <div className="d-lower-grid">
+              <Link
+                href={href("progetti", "D", "dynamic-island")}
+                className="d-feature"
+              >
+                <ProjectMedia project={projects[0]} />
+                <div>
+                  <span>Dal mio laboratorio</span>
+                  <h2>Dynamic Island</h2>
+                  <p>Una shell modulare per Hyprland.</p>
+                  <span className="d-feature-link">
+                    Apri il progetto <Icon name="external" />
+                  </span>
+                </div>
               </Link>
+              <section className="d-brief">
+                <span>Un po’ di contesto</span>
+                <p>
+                  Diplomato in Informatica e Telecomunicazioni. Durante il PCTO
+                  in Galileo Italia ho lavorato con Java e modelli AI locali.
+                </p>
+                <Link href={href("certificazioni", "D")}>
+                  Il mio percorso <Icon name="external" />
+                </Link>
+              </section>
             </div>
           </>
         ) : page === "progetti" ? (
           <>
-            <div className="r-page-heading">
-              <div>
-                <span className="m-page-kicker">
-                  Esperimenti in corso, idee che funzionano.
-                </span>
-                <h1>
-                  Progetti
-                  <br />
-                  in vista.
-                </h1>
-              </div>
-              <p>
-                Dal desktop al browser.
-                <br />
-                Il codice è sempre aperto.
-              </p>
-            </div>
-            <div className="r-project-gallery">
+            <PageHeading
+              label="Il codice, in pratica"
+              title="Progetti personali."
+              text="Tre ambiti diversi: Linux, intelligenza artificiale e sviluppo web."
+            />
+            <div className="d-projects">
               {projects.map((p) => (
-                <Link key={p.slug} href={href("progetti", "C", p.slug)}>
+                <Link key={p.slug} href={href("progetti", "D", p.slug)}>
                   <ProjectMedia project={p} />
                   <div>
                     <span>{p.category}</span>
                     <h2>{p.name}</h2>
-                    <Icon name="external" />
+                    <p>{p.description}</p>
+                    <small>{p.stack}</small>
                   </div>
+                  <Icon name="external" />
                 </Link>
               ))}
             </div>
           </>
         ) : page === "certificazioni" ? (
           <>
-            <div className="r-page-heading">
-              <div>
-                <span className="m-page-kicker">
-                  Formazione, senza punto finale.
-                </span>
-                <h1>
-                  Nuove
-                  <br />
-                  prospettive.
-                </h1>
-              </div>
-              <p>
-                AI, cloud, reti.
-                <br />
-                Percorsi verificabili.
-              </p>
-            </div>
+            <PageHeading
+              label="Studio e formazione"
+              title="Imparare, poi costruire."
+              text="Le certificazioni che accompagnano gli esperimenti e il lavoro sul campo."
+            />
             <Credentials />
-            <div className="r-education">
-              <span>Il punto di partenza / 2026</span>
-              <h2>
-                Informatica e<br />
-                Telecomunicazioni.
-              </h2>
-              <p>Diploma tecnico / IISS Luigi Dell’Erba</p>
+            <div className="d-diploma">
+              <span>2026 / IISS Luigi Dell’Erba</span>
+              <h2>Diploma in Informatica e Telecomunicazioni</h2>
+              <p>Le basi da cui continuo a esplorare.</p>
             </div>
           </>
         ) : (
           <>
-            <div className="r-page-heading">
-              <div>
-                <span className="m-page-kicker">
-                  Non tutto inizia con una riga di codice.
-                </span>
-                <h1>
-                  La prossima
-                  <br />
-                  connessione.
-                </h1>
-              </div>
-              <Portrait />
-            </div>
+            <PageHeading
+              label="Restiamo in contatto"
+              title="C’è un’idea di cui parlare?"
+              text="Un progetto, una collaborazione o una conversazione tecnica. Scrivimi qui."
+            />
             <Contacts />
-            <div className="r-contact-bottom">
-              <span>
-                Un progetto? Un esperimento?
-                <br />
-                Partiamo da una conversazione.
-              </span>
-              <span>
-                Putignano, Italia
-                <br />
-                Italiano / English B2
-              </span>
-            </div>
+            <p className="d-contact-note">
+              Nessun form: una mail diretta, oppure ci troviamo su GitHub e
+              LinkedIn.
+            </p>
           </>
         )}
       </main>
-      <footer className="r-footer">
-        <span>Lorenzo Recchia / Portfolio personale</span>
-        <Link href={href("contatti", "C")}>
-          Una nuova conversazione <Icon name="external" />
-        </Link>
+      <footer className="d-footer">
+        <span>Lorenzo Recchia / St0rmosu</span>
+        <span>Fuori dal codice: homelab, vinili e Formula 1.</span>
       </footer>
+    </div>
+  );
+}
+const focusAreas = [
+  {
+    label: "Web",
+    title: "Dall’idea all’interfaccia.",
+    text: "Sviluppo applicazioni con TypeScript, React e Next.js. Mi interessa come il codice diventa qualcosa che si può usare.",
+    group: "Web",
+    project: "re-life",
+  },
+  {
+    label: "Linux",
+    title: "Sotto l’interfaccia.",
+    text: "Linux è anche un laboratorio: Hyprland, applicazioni desktop e servizi che gestisco in prima persona nel mio homelab.",
+    group: "Sistemi",
+    project: "dynamic-island",
+  },
+  {
+    label: "AI locale",
+    title: "Modelli, problemi concreti.",
+    text: "Durante il PCTO ho lavorato all’analisi dei tessuti con Java e modelli locali. Esploro Ollama e gli strumenti che porta sul desktop.",
+    group: "Software",
+    project: "galileo",
+  },
+];
+function Signal({ page, project }: { page: string; project?: Project }) {
+  const [focus, setFocus] = useState(1);
+  const selected = focusAreas[focus];
+  return (
+    <div className="signal">
+      <div className="e-shell">
+        <header className="e-header">
+          <Link href={href("profilo", "E")} className="e-brand">
+            lr<span>.</span>
+          </Link>
+          <span>Lorenzo Recchia / Portfolio personale</span>
+          <a
+            href="https://github.com/St0rmosu"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub <Icon name="external" />
+          </a>
+        </header>
+        <div className="e-mobile-nav">
+          <Nav variant="E" page={page} />
+        </div>
+        <main id="mockup-content" className="e-main">
+          {project ? (
+            <Detail project={project} variant="E" />
+          ) : page === "profilo" ? (
+            <>
+              <div className="e-home">
+                <section className="e-identity">
+                  <span className="e-role">
+                    Software developer, systems enthusiast.
+                  </span>
+                  <h1>
+                    Lorenzo
+                    <br />
+                    Recchia<span>.</span>
+                  </h1>
+                  <p>
+                    Costruisco software.
+                    <br />
+                    Tengo accesa la curiosità.
+                  </p>
+                  <Link className="e-contact-link" href={href("contatti", "E")}>
+                    Scrivimi <Icon name="external" />
+                  </Link>
+                  <div className="e-personal">
+                    <span>Altre frequenze</span>
+                    <p>Hi-fi. Vinili. Formula 1.</p>
+                  </div>
+                </section>
+                <section className="e-focus">
+                  <span className="e-focus-label">Sintonizzato su</span>
+                  <div
+                    className="e-focus-buttons"
+                    aria-label="Aree di interesse"
+                  >
+                    {focusAreas.map((area, i) => (
+                      <button
+                        key={area.label}
+                        aria-pressed={focus === i}
+                        aria-controls="signal-focus"
+                        onClick={() => setFocus(i)}
+                      >
+                        {area.label}
+                      </button>
+                    ))}
+                  </div>
+                  <div
+                    id="signal-focus"
+                    className="e-focus-content"
+                    aria-live="polite"
+                  >
+                    <span className="e-focus-symbol" aria-hidden="true">
+                      {focus === 0 ? "</>" : focus === 1 ? "~/" : "{ }"}
+                    </span>
+                    <h2>{selected.title}</h2>
+                    <p>{selected.text}</p>
+                    <Toolset group={selected.group} />
+                    <Link
+                      className="e-related"
+                      href={href("progetti", "E", selected.project)}
+                    >
+                      Esplora un progetto in quest’area <Icon name="external" />
+                    </Link>
+                  </div>
+                </section>
+              </div>
+              <div className="e-project-shortcuts">
+                {projects.map((p) => (
+                  <Link key={p.slug} href={href("progetti", "E", p.slug)}>
+                    <span>{p.category}</span>
+                    <strong>{p.name}</strong>
+                    <Icon name="external" />
+                  </Link>
+                ))}
+              </div>
+            </>
+          ) : page === "progetti" ? (
+            <>
+              <PageHeading
+                label="Dal mio laboratorio"
+                title="Idee messe alla prova."
+                text="Applicazioni, esperimenti e strumenti. Ogni progetto ha il suo contesto."
+              />
+              <div className="e-projects">
+                {projects.map((p) => (
+                  <Link key={p.slug} href={href("progetti", "E", p.slug)}>
+                    <ProjectMedia project={p} />
+                    <div>
+                      <span>{p.category}</span>
+                      <h2>{p.name}</h2>
+                      <p>{p.description}</p>
+                      <small>{p.stack}</small>
+                      <Icon name="external" />
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </>
+          ) : page === "certificazioni" ? (
+            <>
+              <PageHeading
+                label="Un percorso che continua"
+                title="Studio. Provo. Imparo."
+                text="AI, cloud e reti: le certificazioni del mio percorso, con le credenziali originali."
+              />
+              <Credentials />
+              <div className="e-diploma">
+                <span>Il punto di partenza</span>
+                <p>
+                  Diploma in Informatica e Telecomunicazioni
+                  <br />
+                  <small>IISS Luigi Dell’Erba / 2026</small>
+                </p>
+              </div>
+            </>
+          ) : (
+            <>
+              <PageHeading
+                label="Un nuovo punto di contatto"
+                title="Facciamo due parole."
+                text="Per un’idea da costruire, una collaborazione o un confronto. Mi trovi qui."
+              />
+              <Contacts />
+              <div className="e-contact-foot">
+                <span>
+                  <i /> Aperto a collaborazioni
+                </span>
+                <span>Italiano / English B2</span>
+              </div>
+            </>
+          )}
+        </main>
+        <div className="e-navigation">
+          <span>Esplora il mio spazio</span>
+          <Nav variant="E" page={page} />
+        </div>
+      </div>
+      <footer className="e-footer">
+        <span>St0rmosu / Lorenzo Recchia</span>
+        <span>Putignano, Italia</span>
+      </footer>
+    </div>
+  );
+}
+function Notes({ page, project }: { page: string; project?: Project }) {
+  return (
+    <div className="notes">
+      <aside className="f-sidebar">
+        <Link className="f-brand" href={href("profilo", "F")}>
+          lr<span>/</span>
+        </Link>
+        <p>
+          Il taccuino di
+          <br />
+          <strong>Lorenzo Recchia.</strong>
+        </p>
+        <Nav variant="F" page={page} />
+        <div className="f-side-foot">
+          <a
+            href="https://github.com/St0rmosu"
+            target="_blank"
+            rel="noreferrer"
+          >
+            St0rmosu <Icon name="external" />
+          </a>
+          <span>Software / sistemi / curiosità</span>
+        </div>
+      </aside>
+      <div className="f-content">
+        <header className="f-top">
+          <span>Portfolio personale</span>
+          <span>Putignano, Italia</span>
+        </header>
+        <main id="mockup-content">
+          {project ? (
+            <Detail project={project} variant="F" />
+          ) : page === "profilo" ? (
+            <>
+              <div className="f-identity">
+                <span>Piacere di conoscerti.</span>
+                <h1>
+                  Lorenzo
+                  <br />
+                  Recchia.
+                </h1>
+                <p>
+                  Sviluppatore software.
+                  <br />
+                  Curioso di quello che c’è dietro.
+                </p>
+              </div>
+              <div className="f-biography">
+                <h2>Dal browser al sistema operativo.</h2>
+                <p>
+                  Sviluppo applicazioni web e desktop, lavoro con Java e Python
+                  e mi piace esplorare Linux. Ho un diploma in Informatica e
+                  Telecomunicazioni all’IISS Luigi Dell’Erba, conseguito nel
+                  2026.
+                </p>
+                <p>
+                  Durante il PCTO presso Galileo Italia ho lavorato all’analisi
+                  dei tessuti con modelli AI locali. A casa continuo gli
+                  esperimenti con un homelab Proxmox, macchine virtuali e
+                  container.
+                </p>
+              </div>
+              <section className="f-toolkit">
+                <h2>Gli strumenti sul tavolo</h2>
+                {["Web", "Software", "Sistemi"].map((group) => (
+                  <div key={group}>
+                    <span>{group}</span>
+                    <Toolset group={group} />
+                  </div>
+                ))}
+              </section>
+              <div className="f-personal">
+                <span>Una nota personale</span>
+                <p>
+                  Homelab, hi-fi, vinili e Formula 1.
+                  <br />
+                  Le altre cose a cui dedico volentieri il mio tempo.
+                </p>
+              </div>
+              <Link className="f-next" href={href("progetti", "F")}>
+                Passa ai progetti <Icon />
+              </Link>
+            </>
+          ) : page === "progetti" ? (
+            <>
+              <PageHeading
+                label="Appunti di progetto"
+                title="Il codice, con un contesto."
+                text="Cosa ho costruito, quali strumenti ho usato e che cosa volevo esplorare."
+              />
+              <div className="f-projects">
+                {projects.map((p) => (
+                  <article key={p.slug}>
+                    <span>{p.category}</span>
+                    <h2>
+                      <Link href={href("progetti", "F", p.slug)}>
+                        {p.name} <Icon name="external" />
+                      </Link>
+                    </h2>
+                    <p>{p.body}</p>
+                    <small>{p.stack}</small>
+                    <Link
+                      className="f-read"
+                      href={href("progetti", "F", p.slug)}
+                    >
+                      Apri la nota sul progetto <Icon />
+                    </Link>
+                  </article>
+                ))}
+              </div>
+            </>
+          ) : page === "certificazioni" ? (
+            <>
+              <PageHeading
+                label="Percorso di studio"
+                title="Aggiungere prospettive."
+                text="Le certificazioni si affiancano a quello che imparo costruendo."
+              />
+              <Credentials />
+              <div className="f-personal">
+                <span>Formazione di base / 2026</span>
+                <p>
+                  Diploma in Informatica e Telecomunicazioni
+                  <br />
+                  IISS Luigi Dell’Erba
+                </p>
+              </div>
+            </>
+          ) : (
+            <>
+              <PageHeading
+                label="Lascia una riga"
+                title="Una conversazione, per iniziare."
+                text="Per parlare di software, di un progetto o di qualcosa che merita di essere esplorato insieme."
+              />
+              <Contacts />
+              <div className="f-personal">
+                <span>Come preferisci</span>
+                <p>
+                  Una mail diretta o un messaggio su LinkedIn.
+                  <br />
+                  Su GitHub trovi il codice e i progetti.
+                </p>
+              </div>
+            </>
+          )}
+        </main>
+        <footer className="f-footer">
+          <span>Lorenzo Recchia / St0rmosu</span>
+          <Link href={href("contatti", "F")}>
+            Restiamo in contatto <Icon name="external" />
+          </Link>
+        </footer>
+      </div>
     </div>
   );
 }
@@ -833,16 +811,19 @@ function Overview() {
         </a>
       </header>
       <main>
-        <span className="o-kicker">Tre mockup. Quattro pagine ciascuno.</span>
+        <span className="o-kicker">
+          Tre nuove direzioni. Sempre multipagina.
+        </span>
         <h1>
-          Troviamo il tuo
+          Un’altra prospettiva sul tuo
           <br />
-          <em>prossimo portfolio.</em>
+          <em>portfolio.</em>
         </h1>
         <p>
-          Tre modi diversi di raccontare lo stesso percorso. Apri un mockup,
-          naviga tra le pagine e confrontalo con gli altri. Possiamo scegliere
-          una direzione o combinare gli elementi che preferisci.
+          Tre nuove composizioni, sviluppate dopo aver studiato i riferimenti
+          che hai scelto. Apri un mockup, naviga tra le pagine e confrontalo con
+          gli altri. Possiamo scegliere una direzione o combinare gli elementi
+          che preferisci.
         </p>
         <div className="o-variants">
           {variants.map((v) => (
@@ -932,7 +913,7 @@ function PrototypeSwitcher({
       <Link
         className="m-switch-overview"
         href="/mockup"
-        aria-label="Mostra il confronto dei tre mockup"
+        aria-label="Mostra il confronto delle nuove proposte"
       >
         <Icon name="grid" />
         <span>Confronto</span>
@@ -982,12 +963,12 @@ export default function MockupLab(props: Props) {
       <a className="m-skip" href="#mockup-content">
         Vai al contenuto
       </a>
-      {variant === "A" ? (
-        <Workspace page={page} project={project} />
-      ) : variant === "B" ? (
-        <Studio page={page} project={project} />
+      {variant === "D" ? (
+        <Meridian page={page} project={project} />
+      ) : variant === "E" ? (
+        <Signal page={page} project={project} />
       ) : (
-        <Archive page={page} project={project} />
+        <Notes page={page} project={project} />
       )}
       {reviewMode && (
         <PrototypeSwitcher variant={variant} page={page} slug={slug} />

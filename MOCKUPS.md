@@ -1,63 +1,53 @@
-# Tre direzioni per un portfolio multipagina
+# Portfolio: seconda esplorazione, guidata dai riferimenti
 
-Domanda aperta: quale identità e quale struttura si avvicinano al portfolio desiderato? La proposta precedente, su un’unica pagina blu cobalto, non è stata approvata. Questi prototipi servono a confrontare tre alternative prima di implementare la direzione scelta.
+## Domanda di design
 
-## Aprire i prototipi
+Tre nuove proposte multipagina per Lorenzo Recchia, dopo il rifiuto di Workspace, Studio e Archive. Le versioni precedenti restano nella cronologia del branch. Nessuna proposta è stata approvata e il prototipo resta fuori da main.
 
-```sh
-npm run mockups
-```
+## Riferimenti osservati
 
-Aprire `http://localhost:3001/mockup`. La schermata di confronto collega le tre proposte. Ogni mockup ha pagine distinte per profilo, progetti, certificazioni e contatti, più tre pagine di dettaglio dei progetti.
+Sono state aperte in Chromium le home di `https://syswhite.dev/` e `https://res.onance.dev/`, insieme alle loro pagine dei lavori e alla pagina contatti di Resonance. Gli screenshot sono stati esaminati come riferimento visivo.
 
-- A / Workspace: `/mockup?variant=A`
-- B / Studio: `/mockup?variant=B`
-- C / Archive: `/mockup?variant=C`
+Tratti condivisi utili: tema scuro, identità personale immediata, tecnologie visibili, navigazione compatta, pagine di lavoro e contatto dedicate. Non vengono riutilizzati codice, testi, loghi, immagini o composizioni dei siti di riferimento. Le credenziali e le esperienze dei riferimenti non appartengono a Lorenzo e non vengono riprese.
 
-Il selettore mantiene la pagina corrente quando si passa da una direzione all’altra. Le frecce della tastiera scorrono tra le varianti. La variante è conservata nell’URL; il browser supporta ricaricamento, collegamenti diretti e navigazione indietro.
+## Direzioni prima dell’implementazione
 
-Il confronto è visibile in sviluppo e nei deploy Vercel Preview. Per provarlo con un server locale di produzione usare `MOCKUP_REVIEW=1 npm run start -- --port 3001`. Il selettore non è abilitato nel deploy di produzione.
+### D — Meridian
 
-## Cosa è stato osservato nel sito attuale
+Un profilo tecnico compatto, leggibile come una scheda personale. Due colonne con biografia e strumenti, navigazione orizzontale e progetti come percorsi da aprire. Display in Space Grotesk e testo Manrope. Grafite `#10191c`, pannello `#182529`, bordo `#304347`, testo `#e5efed`, menta fredda `#b1dcd2`. Niente titolo pubblicitario a tutta pagina: il nome e le competenze sono il punto d’ingresso.
 
-`https://lollo.is-a.dev` è stato aperto in Chromium. Il portfolio è organizzato in quattro workspace distinti: About, Projects, Certificazioni e Contact. La pagina iniziale presenta identità, biografia, foto e competenze. Il codice pubblico conferma il cambio dei workspace e i dettagli interni dei progetti e delle certificazioni.
+Schema: navigazione → identità a sinistra / strumenti a destra → progetto in evidenza → footer.
 
-L’elemento da preservare è la separazione delle aree, con navigazione sempre riconoscibile. In questi mockup la separazione è tradotta in pagine con URL dedicati, invece di raccogliere tutto in una lunga landing page.
+### E — Signal
 
-## Le proposte
+Un’interfaccia centrale con identità e selettore delle aree di interesse. Il cambio di area rivela il contesto e gli strumenti effettivamente collegati, senza falsi dati live o controlli audio. La navigazione appartiene al bordo inferiore della composizione. Manrope, con proporzioni più morbide. Inchiostro viola `#181620`, fondo `#101116`, pannello `#24212d`, testo `#eeedf4`, lavanda `#cbbde8`. Luce di fondo direzionale, nessuna copia della palette giallo/viola del riferimento.
 
-### A — Workspace
+Schema: piccola testata → nome / area interattiva → tre accessi ai progetti → navigazione delle quattro pagine.
 
-Pannelli opachi, frame del documento, indice laterale e informazioni compatte. Famiglia Manrope, fondo antracite blu `#11131b`, pannelli `#1a1d28`, testo `#ececf3`, lavanda `#c2aff6`. I progetti usano un elenco da esplorare. La pagina profilo presenta subito nome, ruolo e contesto. È la direzione più vicina al linguaggio informatico del portfolio attuale, con una diversa gerarchia e senza ricopiare il gestore delle finestre.
+### F — Notes
 
-### B — Studio
+Un quaderno tecnico scuro, più testuale e raccolto. Indice laterale essenziale, nome serif, biografia e competenze come righe di lettura, progetti come note da approfondire. Georgia per il nome, Manrope per testo e interfaccia. Ardesia `#1a242c`, fondo `#141c23`, testo `#e9e8df`, secondario `#abb7bf`, rame chiaro `#d2b29a`. Nessuna card decorativa o pannello da desktop simulato.
 
-Indice da taccuino, ritratto, titoli serif e spazi più aperti. Georgia per il display, Manrope per i contenuti, fondo bianco, carta lilla `#f7f6fa`, testo prugna `#322b3c`, accento `#796482`. Il portfolio dà priorità alla persona e al percorso; le pagine progetto hanno una lettura più narrativa.
+Schema: indice laterale / documento personale → competenze raggruppate → percorso; ogni voce apre una pagina reale.
 
-### C — Archive
+## Revisione rispetto al brief
 
-Indice orizzontale, grandi titoli e screenshot protagonisti. Space Grotesk locale, fondo grafite `#191a1c`, testo argento `#e6e5e1`, metallo caldo `#c5b9a6`. La homepage è un ingresso nell’archivio dei lavori; i dettagli hanno un’immagine ampia e il contesto del progetto.
+Le proposte condividono l’atmosfera scura e il carattere tecnico dei riferimenti, ma cambiano struttura, gerarchia, tipografia e navigazione. Nessuna è una riproduzione delle loro home. La matrice degli strumenti di Meridian è più compatta e raggruppata; Signal usa una selezione interattiva delle aree; Notes privilegia la lettura. Il modello suggerito dalla ricerca UI/UX Pro Max (narrazione con scroll) non viene adottato perché non rispetta la richiesta di pagine separate.
 
-## Fonti e immagini
+## Contenuti e vincoli
 
-Contenuti personali, collegamenti e credenziali: portfolio pubblico di Lorenzo Recchia / St0rmosu. La fotografia è quella dell’utente già pubblicata nel repository originale, usata come contenuto personale per confrontare i layout.
+Profilo, Progetti, Certificazioni e Contatti sono pagine distinte; ciascun progetto ha un dettaglio con URL dedicato. Sono presenti Dynamic Island, GALILEO e RE-LIFE. hyprfm è un fork ed è escluso da ogni proposta. Niente testimonianze, metriche, premi o collaborazioni inventati.
 
-Screenshot originali dei progetti:
+Contenuti personali e credenziali provengono dal portfolio pubblico di Lorenzo. Fotografia personale e screenshot dei progetti sono dell’utente, già presenti nel prototipo. Le icone tecnologiche sono di Simple Icons, distribuite dal CDN del progetto, con i rispettivi nomi accanto. Non è stato preso alcun asset dai due siti di riferimento.
 
-- `St0rmosu/dynamic-island-hyprland`, `assets/screenshots/full_desktop.png` e `assets/screenshots/control_center.png`.
+## Apertura
 
-Le due immagini di Dynamic Island sono presentate insieme come collage di screenshot. Per GALILEO e RE-LIFE sono usate composizioni esclusivamente tipografiche, senza fingere schermate delle applicazioni. Le miniature `public/mockups/preview-*.jpg` sono catture browser dei prototipi stessi.
+`npm run mockups`, poi `http://localhost:3001/mockup`. Le varianti sono condivisibili con `?variant=D`, `?variant=E` e `?variant=F`. La barra di confronto mantiene la pagina corrente; i tasti freccia scorrono tra le tre proposte. Il selettore è disponibile in sviluppo e nelle Vercel Preview, e viene escluso dalla produzione.
 
-## Stato
+## Verifiche
 
-Tre proposte esplorative sul branch `prototype/portfolio-directions`. Nessuna scelta è stata consolidata. Il prossimo passo dipende dal confronto dell’utente: scegliere una direzione o indicare quali elementi combinare. Il codice del prototipo resta fuori da main.
+Le sette pagine di ogni variante (21 in totale) sono state aperte a 320 px: nessuno scorrimento orizzontale, immagini caricate e una sola intestazione principale. Le pagine dei progetti sono state controllate anche a 1440 px. Gli screenshot delle home sono stati esaminati su desktop e telefono.
 
-## Verifiche eseguite
+Verificati il selettore Web/Linux/AI di Signal con il collegamento al progetto relativo, i collegamenti delle pagine, il cambio di variante mantenendo il dettaglio progetto, le frecce della tastiera, il tasto Indietro e la modalità movimento ridotto. Nessun errore JavaScript nei percorsi controllati. Il percorso di hyprfm restituisce 404.
 
-- Build di produzione Next.js e controllo TypeScript.
-- Apertura delle sette pagine per ciascuna proposta, con verifica delle immagini e dell’assenza di scorrimento orizzontale a 320 px.
-- Catture dei layout desktop e mobile, controllate visivamente.
-- Cambio variante mantenendo il dettaglio progetto, navigazione con le frecce e tasto Indietro del browser.
-- Schermata di confronto con tre miniature caricate e nessun errore JavaScript nei percorsi controllati.
-
-Selezione dei progetti: hyprfm è un fork ed è escluso dal portfolio e da tutti i mockup.
+Build di produzione Next.js e TypeScript completati dopo la revisione visiva finale.
