@@ -48,17 +48,6 @@ const projects = [
     tags: ["Java", "Ollama", "AI locale"],
   },
   {
-    name: "hyprfm",
-    repo: "hyprfm",
-    category: "Utility / Open source",
-    stack: "Qt6, QML, Hyprland",
-    kind: "files",
-    intro: "I tuoi file, senza complicazioni.",
-    description:
-      "Un file manager leggero in Qt6 e QML pensato per Hyprland. Un progetto per esplorare gli strumenti quotidiani del desktop attraverso un’interfaccia essenziale.",
-    tags: ["Qt6", "QML", "Linux"],
-  },
-  {
     name: "RE-LIFE",
     repo: "sitogpo",
     category: "Web / Progetto scolastico",
@@ -156,19 +145,6 @@ function ProjectVisual({ kind }: { kind: string }) {
           <span className="visual-caption">
             Diagramma concettuale · AI locale
           </span>
-        </>
-      )}
-      {kind === "files" && (
-        <>
-          <div className="file-composition">
-            <div className="folder-shape">~/</div>
-            <div className="file-label">
-              <b>hyprfm</b>
-              <span>Un posto per ogni cosa.</span>
-            </div>
-            <div className="file-path">home / lorenzo / projects</div>
-          </div>
-          <span className="visual-caption">Studio grafico del progetto</span>
         </>
       )}
       {kind === "relife" && (
