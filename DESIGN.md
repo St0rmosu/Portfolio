@@ -11,7 +11,7 @@ Un laboratorio software aperto: un’identità personale riconoscibile, dal sist
 - Menta `#c3f2d4`: indicatore di disponibilità.
 - Manrope Variable: una famiglia locale per titoli, testo e controlli, con una scala tipografica distinta per ciascun ruolo.
 
-Struttura: introduzione → quattro progetti selezionati → profilo e competenze → formazione → contatto. Le colonne dei progetti sfalsate danno ritmo al desktop; su mobile diventano una sequenza unica. Allineamento a sinistra per contenuti e titoli, centrale soltanto per la mappa interattiva.
+Struttura: introduzione → tre progetti selezionati → profilo e competenze → formazione → contatto. Le colonne dei progetti sfalsate danno ritmo al desktop; su mobile diventano una sequenza unica. Allineamento a sinistra per contenuti e titoli, centrale soltanto per la mappa interattiva.
 
 ## Movimento
 

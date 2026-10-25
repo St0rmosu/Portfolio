@@ -114,7 +114,7 @@ test("without JavaScript all content, contact links and details remain usable", 
   const page = await context.newPage();
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-  await expect(page.locator("article")).toHaveCount(4);
+  await expect(page.locator("article")).toHaveCount(3);
   await page.locator("summary").first().click();
   await expect(page.locator("details").first()).toHaveAttribute("open", "");
   await expect(
